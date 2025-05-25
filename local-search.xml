@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>LLM_Basic_Knowledge</title>
+    <link href="/2025/05/25/LLM-Basic-Knowledge/"/>
+    <url>/2025/05/25/LLM-Basic-Knowledge/</url>
+    
+    <content type="html"><![CDATA[<h1 id="大模型基本知识"><a href="#大模型基本知识" class="headerlink" title="大模型基本知识"></a>大模型基本知识</h1><h2 id="Token-词元"><a href="#Token-词元" class="headerlink" title="Token 词元"></a>Token 词元</h2><p>token 是大模型（LLM）用来表示自然语言文本的基本单位，可以直观的理解为 “字” 或 “词”。<br>通常 1 个中文词语、1 个英文单词、1 个数字或 1 个符号计为 1 个 token<br>一般情况下模型中 token 和字数的换算比例大致如下：<br>1 个英文字符 ≈ 0.3 个 token。<br>1 个中文字符 ≈ 0.6 个 token。<br>所以，我们可以近似的认为一个汉字就是一个 token </p><h2 id="Tokenizer-分词器"><a href="#Tokenizer-分词器" class="headerlink" title="Tokenizer 分词器"></a>Tokenizer 分词器</h2><p>将原始文本拆解为模型可处理的最小语义单元（Token）的过程，其核心作用包括： </p><ol><li>降维处理：将无限可能的文本组合映射到有限词表（如 GPT-4 词表约 10 万 Token）； </li><li>语义保留：通过子词拆分处理未登录词（如“量子计算”拆为“量子”+“计算”）； </li><li>跨语言统一：中英文混合句如“给我一个 iPhone15 的测评”可拆为[“给”, “我”, “一个”, “iPhone”, “15”, “的”, “测”, “评”]。</li></ol>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Hello World</title>
     <link href="/2024/07/10/hello-world/"/>
     <url>/2024/07/10/hello-world/</url>
