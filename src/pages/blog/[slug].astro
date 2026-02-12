@@ -1,0 +1,149 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate } from '../../utils/helpers';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: post,
+  }));
+}
+
+type Props = CollectionEntry<'blog'>;
+
+const post = Astro.props;
+const { Content } = await post.render();
+
+// Get related posts (same tags)
+const allPosts = await getCollection('blog');
+const relatedPosts = allPosts
+  .filter(p => 
+    p.slug !== post.slug && 
+    p.data.tags.some(tag => post.data.tags.includes(tag))
+  )
+  .slice(0, 3);
+---
+
+<Layout 
+  title={post.data.title}
+  description={post.data.description}
+  type="article"
+  pubDate={post.data.pubDate}
+>
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Back Button -->
+    <a 
+      href="/blog" 
+      class="inline-flex items-center gap-2 text-[var(--color-muted)] hover:text-[var(--color-fg)] mb-8 transition-colors"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m15 18-6-6 6-6"/>
+      </svg>
+      返回博客
+    </a>
+    
+    <!-- Header -->
+    <header class="mb-12">
+      {post.data.heroImage && (
+        <div class="aspect-video rounded-xl overflow-hidden mb-8">
+          <img 
+            src={post.data.heroImage} 
+            alt={post.data.title}
+            class="w-full h-full object-cover"
+          />
+        </div>
+      )}
+      
+      <div class="flex flex-wrap items-center gap-3 mb-4 text-sm text-[var(--color-muted)]">
+        <time datetime={post.data.pubDate.toISOString()}>
+          {formatDate(post.data.pubDate)}
+        </time>
+        
+        {post.data.updatedDate && (
+          <span>
+            · 更新于 {formatDate(post.data.updatedDate)}
+          </span>
+        )}
+        
+        {post.data.featured && (
+          <span class="px-2 py-0.5 text-xs font-medium text-[var(--color-accent)] bg-[var(--color-accent)]/10 rounded-full">
+            精选
+          </span>
+        )}
+      </div>
+      
+      <h1 class="font-serif text-3xl sm:text-4xl font-bold text-[var(--color-fg)] mb-4">
+        {post.data.title}
+      </h1>
+      
+      <p class="text-lg text-[var(--color-muted)]">{post.data.description}</p>
+      
+      {post.data.tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mt-6">
+          {post.data.tags.map(tag => (
+            <a 
+              href={`/tags/${tag}`}
+              class="text-sm px-3 py-1 text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors"
+            >
+              #{tag}
+            </a>
+          ))}
+        </div>
+      )}
+    </header>
+    
+    <!-- Content -->
+    <div class="prose-custom prose-lg max-w-none">
+      <Content />
+    </div>
+    
+    <!-- Footer -->
+    <footer class="mt-16 pt-8 border-t border-[var(--color-border)]">
+      <div class="flex items-center justify-between">
+        <a 
+          href="/blog" 
+          class="inline-flex items-center gap-2 text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+          返回博客
+        </a>
+        
+        <a 
+          href="https://github.com/BaiXious" 
+          class="text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors"
+        >
+          在 GitHub 上编辑
+        </a>
+      </div>
+    </footer>
+  </article>
+  
+  <!-- Related Posts -->
+  {relatedPosts.length > 0 && (
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-[var(--color-border)]">
+      <h2 class="font-serif text-2xl font-semibold text-[var(--color-fg)] mb-8">相关文章</h2>
+      
+      <div class="grid gap-6">
+        {relatedPosts.map(relatedPost => (
+          <article class="card p-6">
+            <div class="flex flex-wrap items-center gap-3 mb-2 text-sm text-[var(--color-muted)]">
+              <time datetime={relatedPost.data.pubDate.toISOString()}>{formatDate(relatedPost.data.pubDate)}</time>
+            </div>
+            
+            <h3 class="font-serif text-lg font-semibold mb-2">
+              <a href={`/blog/${relatedPost.slug}`} class="text-[var(--color-fg)] hover:text-[var(--color-accent)] transition-colors">
+                {relatedPost.data.title}
+              </a>
+            </h3>
+            
+            <p class="text-[var(--color-muted)] text-sm line-clamp-2">{relatedPost.data.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+</Layout>

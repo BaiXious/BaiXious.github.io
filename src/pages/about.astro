@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AuthorCard from '../components/AuthorCard.astro';
+---
+
+<Layout title="关于">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h1 class="font-serif text-4xl font-bold text-[var(--color-fg)] mb-8">关于我</h1>
+    
+    <div class="prose-custom prose-lg mb-12">
+      <p>
+        你好，我是 BaiXious，一名热爱技术的开发者。
+      </p>
+      
+      <p>
+        这个博客是我使用 Astro 构建的数字花园，采用极简主义设计理念，专注于内容创作和阅读体验。
+      </p>
+      
+      <h2>技术栈</h2>
+      
+      <ul>
+        <li><strong>框架</strong>：Astro</li>
+        <li><strong>样式</strong>：Tailwind CSS</li>
+        <li><strong>搜索</strong>：Pagefind</li>
+        <li><strong>部署</strong>：GitHub Pages</li>
+      </ul>
+      
+      <h2>设计原则</h2>
+      
+      <ul>
+        <li>🎯 <strong>极简主义</strong>：去除冗余，专注内容</li>
+        <li>🌓 <strong>多主题</strong>：支持亮色、暗色、蓝色三种主题</li>
+        <li>🔍 <strong>全文搜索</strong>：Cmd/Ctrl + K 快速搜索</li>
+        <li>📱 <strong>响应式</strong>：完美适配各种设备</li>
+      </ul>
+      
+      <h2>联系我</h2>
+      
+      <p>
+        欢迎通过以下方式与我联系：
+      </p>
+      
+      <ul>
+        <li>📧 Email: hello@example.com</li>
+        <li>🐙 GitHub: github.com/BaiXious</li>
+        <li>🐦 Twitter: twitter.com/baixious</li>
+      </ul>
+    </div>
+    
+    <AuthorCard />
+  </div>
+</Layout>

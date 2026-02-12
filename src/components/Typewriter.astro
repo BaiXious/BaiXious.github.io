@@ -1,0 +1,61 @@
+---
+interface Props {
+  text: string;
+  speed?: number;
+}
+
+const { text, speed = 150 } = Astro.props;
+---
+
+<span id="typewriter" class="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-[var(--color-fg)]">
+  <span id="typewriter-text"></span>
+  <span class="typewriter-cursor"></span>
+</span>
+
+<script define:vars={{ text, speed }}>
+  const textElement = document.getElementById('typewriter-text');
+  let index = 0;
+  let isDeleting = false;
+  let isWaiting = false;
+  
+  function type() {
+    if (isWaiting) return;
+    
+    const currentText = text;
+    
+    if (isDeleting) {
+      textElement.textContent = currentText.slice(0, index - 1);
+      index--;
+    } else {
+      textElement.textContent = currentText.slice(0, index + 1);
+      index++;
+    }
+    
+    let typeSpeed = speed;
+    
+    if (isDeleting) {
+      typeSpeed = speed / 2;
+    }
+    
+    if (!isDeleting && index === currentText.length) {
+      // Finished typing, wait before deleting
+      typeSpeed = 3000;
+      isWaiting = true;
+      setTimeout(() => {
+        isDeleting = true;
+        isWaiting = false;
+        type();
+      }, typeSpeed);
+      return;
+    } else if (isDeleting && index === 0) {
+      // Finished deleting, wait before typing again
+      isDeleting = false;
+      typeSpeed = 500;
+    }
+    
+    setTimeout(type, typeSpeed);
+  }
+  
+  // Start typing after a short delay
+  setTimeout(type, 1000);
+</script>

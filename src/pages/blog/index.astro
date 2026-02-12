@@ -1,0 +1,74 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+const sortedPosts = posts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// Get all unique tags
+const allTags = [...new Set(posts.flatMap(post => post.data.tags))];
+---
+
+<Layout title="博客">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="font-serif text-4xl font-bold text-[var(--color-fg)] mb-4">博客文章</h1>
+      <p class="text-[var(--color-muted)]">
+        共 {sortedPosts.length} 篇文章
+        {allTags.length > 0 && (
+          <span> · {allTags.length} 个标签</span>
+        )}
+      </p>
+    </div>
+    
+    <!-- Tags -->
+    {allTags.length > 0 && (
+      <div class="flex flex-wrap items-center justify-center gap-2 mb-12">
+        <a 
+          href="/blog"
+          class="px-3 py-1 text-sm bg-[var(--color-accent)] text-white rounded-full"
+        >
+          全部
+        </a>
+        {allTags.map(tag => (
+          <a 
+            href={`/tags/${tag}`}
+            class="px-3 py-1 text-sm text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors"
+          >
+            {tag}
+          </a>
+        ))}
+      </div>
+    )}
+    
+    <!-- Posts Grid -->
+    <div class="grid gap-8">
+      {sortedPosts.map(post => (
+        <BlogCard
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          updatedDate={post.data.updatedDate}
+          heroImage={post.data.heroImage}
+          tags={post.data.tags}
+          slug={post.slug}
+          featured={post.data.featured}
+        />
+      ))}
+    </div>
+    
+    <!-- Empty State -->
+    {sortedPosts.length === 0 && (
+      <div class="text-center py-20">
+        <p class="text-[var(--color-muted)]">暂无文章，敬请期待...</p>
+      </div>
+    )}
+  </div>
+</Layout>

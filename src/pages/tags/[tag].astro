@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  const tags = [...new Set(posts.flatMap(post => post.data.tags))];
+  
+  return tags.map(tag => ({
+    params: { tag },
+    props: { tag, posts: posts.filter(post => post.data.tags.includes(tag)) },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+
+const sortedPosts = posts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<Layout title={`标签: ${tag}`}>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header -->
+    <div class="mb-12">
+      <a 
+        href="/blog" 
+        class="inline-flex items-center gap-2 text-[var(--color-muted)] hover:text-[var(--color-fg)] mb-4 transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
+        返回博客
+      </a>
+      
+      <h1 class="font-serif text-4xl font-bold text-[var(--color-fg)] mb-2">#{tag}</h1>
+      <p class="text-[var(--color-muted)]">共 {sortedPosts.length} 篇文章</p>
+    </div>
+    
+    <!-- Posts -->
+    <div class="grid gap-8">
+      {sortedPosts.map(post => (
+        <BlogCard
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          updatedDate={post.data.updatedDate}
+          heroImage={post.data.heroImage}
+          tags={post.data.tags}
+          slug={post.slug}
+          featured={post.data.featured}
+        />
+      ))}
+    </div>
+  </div>
+</Layout>
