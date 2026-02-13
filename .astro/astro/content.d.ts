@@ -165,6 +165,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
+"no_title_2026_02_13.md": {
+	id: "no_title_2026_02_13.md";
+  slug: "no_title_2026_02_13";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
 "threejs-earth.md": {
 	id: "threejs-earth.md";
   slug: "threejs-earth";

@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Typewriter from '../components/Typewriter.astro';
 import BlogCard from '../components/BlogCard.astro';
-import AuthorCard from '../components/AuthorCard.astro';
+import { site } from '../utils/config';
 import { getCollection } from 'astro:content';
 
 const posts = await getCollection('blog', ({ data }) => {
@@ -17,45 +17,40 @@ const latestPosts = sortedPosts.slice(0, 3);
 const featuredPosts = sortedPosts.filter(post => post.data.featured).slice(0, 1);
 ---
 
-<Layout title="首页">
+<Layout title={site.title}>
   <!-- Hero Section -->
-  <section class="min-h-[70vh] flex flex-col items-center justify-center px-4 py-20">
-    <div class="text-center max-w-3xl mx-auto">
-      <div class="mb-8">
-        <Typewriter text="寥廓江天万里霜" />
-      </div>
-      
-      <p class="text-xl text-[var(--color-muted)] mb-8 leading-relaxed">
-        记录技术成长，分享生活感悟
-        <br />
-        一个极简主义者的数字花园
-      </p>
-      
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a 
-          href="/blog" 
-          class="btn btn-primary px-8 py-3 text-lg"
-        >
-          阅读博客
-        </a>
-        
-        <a 
-          href="/about" 
-          class="btn border border-[var(--color-border)] text-[var(--color-fg)] hover:bg-[var(--color-card)] px-8 py-3 text-lg"
-        >
-          了解更多
-        </a>
+  <section class="min-h-[calc(100vh-5rem)] flex items-center justify-center px-6 py-12">
+    <div class="max-w-4xl w-full">
+      <div class="card p-8 sm:p-12 md:p-16">
+        <div class="max-w-2xl">
+          <!-- Title with Typewriter -->
+          <div class="mb-6">
+            <Typewriter text="寥廓江天万里霜" />
+          </div>
+          
+          <!-- Description -->
+          <p class="text-lg text-[var(--color-muted)] mb-8 leading-relaxed">
+            记录技术成长，分享生活感悟。一个极简主义者的数字花园。
+          </p>
+          
+          <!-- Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="/blog" class="btn btn-primary">
+              阅读博客
+            </a>
+            <a href="/about" class="btn btn-secondary">
+              了解更多
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
   
   <!-- Featured Post -->
   {featuredPosts.length > 0 && (
-    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div class="flex items-center gap-3 mb-8">
-        <span class="w-8 h-px bg-[var(--color-accent)]"></span>
-        <h2 class="font-serif text-2xl font-semibold text-[var(--color-fg)]">精选文章</h2>
-      </div>
+    <section class="max-w-4xl mx-auto px-6 pb-20">
+      <h2 class="font-serif text-2xl mb-8 text-[var(--color-fg)]">精选文章</h2>
       
       <div class="grid gap-6">
         {featuredPosts.map(post => (
@@ -75,40 +70,29 @@ const featuredPosts = sortedPosts.filter(post => post.data.featured).slice(0, 1)
   )}
   
   <!-- Latest Posts -->
-  <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="flex items-center justify-between mb-8">
-      <div class="flex items-center gap-3">
-        <span class="w-8 h-px bg-[var(--color-accent)]"></span>
-        <h2 class="font-serif text-2xl font-semibold text-[var(--color-fg)]">最新文章</h2>
+  {latestPosts.length > 0 && (
+    <section class="max-w-4xl mx-auto px-6 pb-20">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="font-serif text-2xl text-[var(--color-fg)]">最新文章</h2>
+        
+        <a href="/blog" class="text-sm text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
+          查看全部 →
+        </a>
       </div>
       
-      <a href="/blog" class="text-[var(--color-accent)] hover:underline">
-        查看全部 →
-      </a>
-    </div>
-    
-    <div class="grid gap-6">
-      {latestPosts.map(post => (
-        <BlogCard
-          title={post.data.title}
-          description={post.data.description}
-          pubDate={post.data.pubDate}
-          updatedDate={post.data.updatedDate}
-          heroImage={post.data.heroImage}
-          tags={post.data.tags}
-          slug={post.slug}
-        />
-      ))}
-    </div>
-  </section>
-  
-  <!-- Author Card -->
-  <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="flex items-center gap-3 mb-8">
-      <span class="w-8 h-px bg-[var(--color-accent)]"></span>
-      <h2 class="font-serif text-2xl font-semibold text-[var(--color-fg)]">关于作者</h2>
-    </div>
-    
-    <AuthorCard />
-  </section>
+      <div class="grid gap-6">
+        {latestPosts.map(post => (
+          <BlogCard
+            title={post.data.title}
+            description={post.data.description}
+            pubDate={post.data.pubDate}
+            updatedDate={post.data.updatedDate}
+            heroImage={post.data.heroImage}
+            tags={post.data.tags}
+            slug={post.slug}
+          />
+        ))}
+      </div>
+    </section>
+  )}
 </Layout>

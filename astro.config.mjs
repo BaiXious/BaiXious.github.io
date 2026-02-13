@@ -4,7 +4,6 @@ import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
   site: 'https://baixious.github.io',
-  base: '/blog202601',
   integrations: [
     mdx(),
     tailwind({

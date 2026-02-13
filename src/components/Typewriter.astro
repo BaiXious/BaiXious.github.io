@@ -7,7 +7,7 @@ interface Props {
 const { text, speed = 150 } = Astro.props;
 ---
 
-<span id="typewriter" class="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-[var(--color-fg)]">
+<span id="typewriter" class="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[var(--color-fg)] tracking-tight">
   <span id="typewriter-text"></span>
   <span class="typewriter-cursor"></span>
 </span>
@@ -38,8 +38,7 @@ const { text, speed = 150 } = Astro.props;
     }
     
     if (!isDeleting && index === currentText.length) {
-      // Finished typing, wait before deleting
-      typeSpeed = 3000;
+      typeSpeed = 4000;
       isWaiting = true;
       setTimeout(() => {
         isDeleting = true;
@@ -48,7 +47,6 @@ const { text, speed = 150 } = Astro.props;
       }, typeSpeed);
       return;
     } else if (isDeleting && index === 0) {
-      // Finished deleting, wait before typing again
       isDeleting = false;
       typeSpeed = 500;
     }
@@ -56,6 +54,5 @@ const { text, speed = 150 } = Astro.props;
     setTimeout(type, typeSpeed);
   }
   
-  // Start typing after a short delay
-  setTimeout(type, 1000);
+  setTimeout(type, 800);
 </script>
