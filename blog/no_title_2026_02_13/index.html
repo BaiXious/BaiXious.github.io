@@ -1,0 +1,306 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>测试笔记#0 | 寥廓江天</title><meta name="description" content="测试基础方法论"><link rel="canonical" href="https://baixious.github.io/blog/no_title_2026_02_13/"><!-- Open Graph --><meta property="og:type" content="article"><meta property="og:url" content="https://baixious.github.io/blog/no_title_2026_02_13/"><meta property="og:title" content="测试笔记#0"><meta property="og:description" content="测试基础方法论"><meta property="og:image" content="https://baixious.github.io/og-image.png"><meta property="og:site_name" content="寥廓江天"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://baixious.github.io/blog/no_title_2026_02_13/"><meta property="twitter:title" content="测试笔记#0"><meta property="twitter:description" content="测试基础方法论"><meta property="twitter:image" content="https://baixious.github.io/og-image.png"><meta property="article:published_time" content="2026-02-13T00:00:00.000Z"><meta property="article:author" content="BaiXious"><!-- RSS --><link rel="alternate" type="application/rss+xml" title="寥廓江天" href="/rss.xml"><!-- Theme initialization script --><script>
+      (function() {
+        const theme = localStorage.getItem('blog-theme') || 'light';
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else if (theme === 'blue') {
+          document.documentElement.classList.add('blue');
+        }
+      })();
+    </script><link rel="stylesheet" href="/_astro/about.C3CwSZGF.css"><script type="module">const a=document.getElementById("theme-toggle"),o=document.getElementById("icon-sun"),c=document.getElementById("icon-moon"),d=document.getElementById("icon-blue");function l(e){o.classList.add("hidden"),c.classList.add("hidden"),d.classList.add("hidden"),e==="light"?o.classList.remove("hidden"):e==="dark"?c.classList.remove("hidden"):e==="blue"&&d.classList.remove("hidden")}function u(){const e=document.documentElement;return e.classList.contains("blue")?"blue":e.classList.contains("dark")?"dark":"light"}function m(){const e=u(),n=["light","dark","blue"],i=(n.indexOf(e)+1)%n.length,t=n[i],s=document.documentElement;s.classList.remove("dark","blue"),t==="dark"?s.classList.add("dark"):t==="blue"&&s.classList.add("blue"),localStorage.setItem("blog-theme",t),l(t)}const r=localStorage.getItem("blog-theme")||"light";l(r);a.addEventListener("click",m);
+</script></head> <body class="min-h-screen"> <!-- Navigation --> <header class="fixed top-0 left-0 right-0 z-50 bg-[var(--color-bg)]/90 backdrop-blur-sm"> <div class="max-w-6xl mx-auto px-6"> <div class="flex items-center justify-between h-20"> <!-- Logo --> <a href="/" class="font-serif text-xl tracking-wide text-[var(--color-fg)] hover:opacity-70 transition-opacity"> 寥廓江天 </a> <!-- Center Navigation --> <nav class="hidden sm:flex items-center gap-8 absolute left-1/2 -translate-x-1/2"> <a href="/blog" class="text-sm tracking-widest uppercase text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
+博客
+</a> <a href="/about" class="text-sm tracking-widest uppercase text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
+关于
+</a> </nav> <!-- Right Actions --> <div class="flex items-center gap-2"> <!-- Mobile Menu Button --> <button class="sm:hidden p-2 text-[var(--color-fg)]" aria-label="菜单"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <line x1="3" y1="6" x2="21" y2="6"></line> <line x1="3" y1="12" x2="21" y2="12"></line> <line x1="3" y1="18" x2="21" y2="18"></line> </svg> </button> <button id="theme-toggle" class="p-2 rounded-full text-[var(--color-muted)] hover:text-[var(--color-fg)] hover:bg-[var(--color-hover)] transition-colors" aria-label="切换主题"> <!-- Sun icon --> <svg id="icon-sun" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <circle cx="12" cy="12" r="5"></circle> <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path> </svg> <!-- Moon icon --> <svg id="icon-moon" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path> </svg> <!-- Blue icon --> <svg id="icon-blue" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <circle cx="12" cy="12" r="10"></circle> <circle cx="12" cy="12" r="4" fill="currentColor"></circle> </svg> </button>  </div> </div> </div> </header> <!-- Main Content --> <main class="pt-20">  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12"> <!-- Back Button --> <a href="/blog" class="inline-flex items-center gap-2 text-[var(--color-muted)] hover:text-[var(--color-fg)] mb-8 transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="m15 18-6-6 6-6"></path> </svg>
+返回博客
+</a> <!-- Header --> <header class="mb-12"> <div class="aspect-video rounded-xl overflow-hidden mb-8"> <img src="/hero.jpg" alt="测试笔记#0" class="w-full h-full object-cover"> </div> <div class="flex flex-wrap items-center gap-3 mb-4 text-sm text-[var(--color-muted)]"> <time datetime="2026-02-13T00:00:00.000Z"> 2026年2月13日 </time> <span>
+· 更新于 2026年2月13日 </span>  </div> <h1 class="font-serif text-3xl sm:text-4xl font-bold text-[var(--color-fg)] mb-4"> 测试笔记#0 </h1> <p class="text-lg text-[var(--color-muted)]">测试基础方法论</p> <div class="flex flex-wrap gap-2 mt-6"> <a href="/tags/博客" class="text-sm px-3 py-1 text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors">
+#博客 </a><a href="/tags/测试方法论" class="text-sm px-3 py-1 text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors">
+#测试方法论 </a> </div> </header> <!-- Content --> <div class="prose-custom prose-lg max-w-none"> <h1 id="-软件测试方法论-学习笔记">🧪 软件测试方法论 学习笔记</h1>
+<h2 id="1-测试基础">1. 测试基础</h2>
+<p><strong>软件测试</strong>：在规定的条件下对程序进行操作，以发现程序错误，衡量软件质量，并评估其是否满足设计要求的过程。</p>
+<ul>
+<li><strong>测试目的</strong>：
+<ul>
+<li>发现缺陷</li>
+<li>验证是否符合需求</li>
+<li>建立质量信心</li>
+<li>预防缺陷</li>
+</ul>
+</li>
+<li><strong>测试原则</strong>（ISTQB 七原则）：
+<ol>
+<li>测试显示缺陷的存在，但不能证明没有缺陷</li>
+<li>穷尽测试是不可能的</li>
+<li>尽早介入测试</li>
+<li>缺陷集群效应（二八原则）</li>
+<li>杀虫剂悖论（需不断更新用例）</li>
+<li>测试活动依赖于上下文</li>
+<li>没有缺陷的系统未必是可用的系统</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="2-测试级别金字塔模型">2. 测试级别（金字塔模型）</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>级别</th><th>范围</th><th>主要对象</th><th>执行者</th></tr></thead><tbody><tr><td>单元测试</td><td>最小可测试单元</td><td>函数、类、模块</td><td>开发工程师</td></tr><tr><td>集成测试</td><td>模块间接口</td><td>子系统、服务</td><td>开发/测试工程师</td></tr><tr><td>系统测试</td><td>整个系统</td><td>完整应用</td><td>测试工程师</td></tr><tr><td>验收测试</td><td>业务需求</td><td>用户场景</td><td>用户/QA</td></tr></tbody></table>
+<hr>
+<h2 id="3-测试类型按测试目标分类">3. 测试类型（按测试目标分类）</h2>
+<h3 id="-功能测试">✅ 功能测试</h3>
+<ul>
+<li>验证系统“做什么”</li>
+<li>方法：等价类划分、边界值分析、决策表、状态转换等</li>
+</ul>
+<h3 id="-非功能测试">⚡ 非功能测试</h3>
+<ul>
+<li>验证系统“做得如何”</li>
+<li>常见类型：
+<ul>
+<li><strong>性能测试</strong>（负载、压力、稳定性）</li>
+<li><strong>安全性测试</strong>（渗透、漏洞扫描）</li>
+<li><strong>兼容性测试</strong>（浏览器、设备、OS）</li>
+<li><strong>易用性测试</strong>（用户体验）</li>
+<li><strong>可靠性/可用性测试</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="-回归测试">🔁 回归测试</h3>
+<ul>
+<li>修改代码后验证原有功能未受影响</li>
+<li>策略：全量回归、风险导向回归、自动化回归</li>
+</ul>
+<hr>
+<h2 id="4-测试设计技术">4. 测试设计技术</h2>
+<h3 id="41-基于规格说明黑盒">4.1 基于规格说明（黑盒）</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>技术</th><th>描述</th><th>适用场景</th></tr></thead><tbody><tr><td>等价类划分</td><td>将输入域划分为有效/无效等价类，每类取一代表</td><td>输入范围清晰</td></tr><tr><td>边界值分析</td><td>关注等价类边界上的值</td><td>存在边界条件</td></tr><tr><td>决策表</td><td>分析多条件组合逻辑</td><td>业务规则复杂</td></tr><tr><td>状态转换图</td><td>基于状态和事件设计用例</td><td>工作流、状态机</td></tr><tr><td>用例测试</td><td>基于用户场景</td><td>端到端业务流程</td></tr></tbody></table>
+<h3 id="42-基于结构白盒">4.2 基于结构（白盒）</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>覆盖准则</th><th>描述</th><th>强度</th></tr></thead><tbody><tr><td>语句覆盖</td><td>每行代码至少执行一次</td><td>低</td></tr><tr><td>分支覆盖（判定）</td><td>每个真/假分支至少执行一次</td><td>中</td></tr><tr><td>条件覆盖</td><td>每个条件取真/假至少一次</td><td>中</td></tr><tr><td>判定条件覆盖</td><td>分支+条件组合</td><td>较高</td></tr><tr><td>MC/DC</td><td>每个条件独立影响判定结果</td><td>高</td></tr><tr><td>路径覆盖</td><td>所有可能路径</td><td>极高</td></tr></tbody></table>
+<h3 id="43-基于经验">4.3 基于经验</h3>
+<ul>
+<li><strong>错误推测法</strong>：根据经验猜测易出错的地方</li>
+<li><strong>探索式测试</strong>：同时设计、执行、学习，强调测试者的主动性</li>
+<li><strong>基于检查表</strong>：常用缺陷列表</li>
+</ul>
+<hr>
+<h2 id="5-测试过程基本流程">5. 测试过程（基本流程）</h2>
+<ol>
+<li>
+<p><strong>测试计划</strong></p>
+<ul>
+<li>分析需求，确定测试范围、策略、资源、进度</li>
+</ul>
+</li>
+<li>
+<p><strong>测试设计</strong></p>
+<ul>
+<li>编写测试用例，准备测试数据</li>
+</ul>
+</li>
+<li>
+<p><strong>测试执行</strong></p>
+<ul>
+<li>运行用例，记录结果，提交缺陷</li>
+</ul>
+</li>
+<li>
+<p><strong>测试评估</strong></p>
+<ul>
+<li>报告测试结果，评估质量，给出发布建议</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="6-测试自动化">6. 测试自动化</h2>
+<ul>
+<li>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>回归测试</li>
+<li>频繁执行的测试</li>
+<li>数据驱动测试</li>
+<li>手工难以模拟的场景（如高并发）</li>
+</ul>
+</li>
+<li>
+<p><strong>常用工具</strong>：</p>
+<ul>
+<li>单元测试：JUnit, pytest, TestNG</li>
+<li>UI自动化：Selenium, Cypress, Playwright</li>
+<li>接口测试：Postman, RestAssured, JMeter</li>
+<li>性能测试：JMeter, LoadRunner, Gatling</li>
+</ul>
+</li>
+<li>
+<p><strong>自动化金字塔</strong>（建议投入比例）：</p>
+<ul>
+<li>底层：大量单元测试（快速、稳定）</li>
+<li>中间层：少量集成/接口测试</li>
+<li>顶层：极少端到端UI测试（慢、脆弱）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="7-测试度量指标">7. 测试度量指标</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>指标</th><th>说明</th><th>用途</th></tr></thead><tbody><tr><td>用例执行通过率</td><td>通过用例数 / 总执行用例数</td><td>衡量当前质量</td></tr><tr><td>缺陷密度</td><td>缺陷数 / 规模（如KLOC）</td><td>评估模块质量</td></tr><tr><td>缺陷修复率</td><td>已修复缺陷 / 总缺陷数</td><td>开发修复速度</td></tr><tr><td>测试覆盖率</td><td>覆盖项 / 总项（代码、需求）</td><td>测试充分性</td></tr><tr><td>测试用例效率</td><td>发现缺陷数 / 执行用例数</td><td>优化用例设计</td></tr></tbody></table>
+<hr>
+<h2 id="8-总结">8. 总结</h2>
+<p>软件测试不仅是“找bug”，更是<strong>质量评估</strong>与<strong>风险控制</strong>的手段。<br>
+有效测试需要：</p>
+<ul>
+<li><strong>分层分型</strong>：针对不同粒度和目标选择合适的方法</li>
+<li><strong>设计优先</strong>：好的用例设计事半功倍</li>
+<li><strong>人机结合</strong>：自动化提升效率，手工测试补充探索性</li>
+<li><strong>持续改进</strong>：通过度量反馈不断优化测试过程</li>
+</ul>
+<blockquote>
+<p>“测试是无穷的，但我们可以用有限的时间找到最重要的缺陷。”</p>
+</blockquote> </div> <!-- Footer --> <footer class="mt-16 pt-8 border-t border-[var(--color-border)]"> <div class="flex items-center justify-between"> <a href="/blog" class="inline-flex items-center gap-2 text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="m15 18-6-6 6-6"></path> </svg>
+返回博客
+</a> <a href="https://github.com/BaiXious" class="text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
+在 GitHub 上编辑
+</a> </div> </footer> </article>  <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-[var(--color-border)]"> <h2 class="font-serif text-2xl font-semibold text-[var(--color-fg)] mb-8">相关文章</h2> <div class="grid gap-6"> <article class="card p-6"> <div class="flex flex-wrap items-center gap-3 mb-2 text-sm text-[var(--color-muted)]"> <time datetime="2024-02-12T00:00:00.000Z">2024年2月12日</time> </div> <h3 class="font-serif text-lg font-semibold mb-2"> <a href="/blog/hello-world" class="text-[var(--color-fg)] hover:text-[var(--color-accent)] transition-colors"> 欢迎来到我的数字花园 </a> </h3> <p class="text-[var(--color-muted)] text-sm line-clamp-2">这是一篇示例文章，展示博客的基本功能和样式。</p> </article><article class="card p-6"> <div class="flex flex-wrap items-center gap-3 mb-2 text-sm text-[var(--color-muted)]"> <time datetime="2026-02-13T00:00:00.000Z">2026年2月13日</time> </div> <h3 class="font-serif text-lg font-semibold mb-2"> <a href="/blog/no_title01_2026_02_13" class="text-[var(--color-fg)] hover:text-[var(--color-accent)] transition-colors"> LLM笔记#0 </a> </h3> <p class="text-[var(--color-muted)] text-sm line-clamp-2">LLM基础介绍</p> </article> </div> </section> </main> <!-- Footer --> <footer class="py-12 mt-20"> <div class="max-w-6xl mx-auto px-6"> <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[var(--color-muted)]"> <p>© 2026 BaiXious</p> <div class="flex items-center gap-6"> <a href="/rss.xml" class="hover:text-[var(--color-fg)] transition-colors">RSS</a> <a href="https://github.com/BaiXious" class="hover:text-[var(--color-fg)] transition-colors">GitHub</a> </div> </div> </div> </footer> </body></html>
