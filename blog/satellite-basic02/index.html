@@ -1,0 +1,437 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>卫星通信基础#2 | 寥廓江天</title><meta name="description" content="卫星通信基础"><link rel="canonical" href="https://baixious.github.io/blog/satellite-basic02/"><!-- Open Graph --><meta property="og:type" content="article"><meta property="og:url" content="https://baixious.github.io/blog/satellite-basic02/"><meta property="og:title" content="卫星通信基础#2"><meta property="og:description" content="卫星通信基础"><meta property="og:image" content="https://baixious.github.io/og-image.png"><meta property="og:site_name" content="寥廓江天"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://baixious.github.io/blog/satellite-basic02/"><meta property="twitter:title" content="卫星通信基础#2"><meta property="twitter:description" content="卫星通信基础"><meta property="twitter:image" content="https://baixious.github.io/og-image.png"><meta property="article:published_time" content="2026-06-14T00:00:00.000Z"><meta property="article:author" content="BaiXious"><!-- RSS --><link rel="alternate" type="application/rss+xml" title="寥廓江天" href="/rss.xml"><!-- Theme initialization script --><script>
+      (function() {
+        const theme = localStorage.getItem('blog-theme') || 'light';
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else if (theme === 'blue') {
+          document.documentElement.classList.add('blue');
+        }
+      })();
+    </script><link rel="stylesheet" href="/_astro/about.C3CwSZGF.css"><script type="module">const a=document.getElementById("theme-toggle"),o=document.getElementById("icon-sun"),c=document.getElementById("icon-moon"),d=document.getElementById("icon-blue");function l(e){o.classList.add("hidden"),c.classList.add("hidden"),d.classList.add("hidden"),e==="light"?o.classList.remove("hidden"):e==="dark"?c.classList.remove("hidden"):e==="blue"&&d.classList.remove("hidden")}function u(){const e=document.documentElement;return e.classList.contains("blue")?"blue":e.classList.contains("dark")?"dark":"light"}function m(){const e=u(),n=["light","dark","blue"],i=(n.indexOf(e)+1)%n.length,t=n[i],s=document.documentElement;s.classList.remove("dark","blue"),t==="dark"?s.classList.add("dark"):t==="blue"&&s.classList.add("blue"),localStorage.setItem("blog-theme",t),l(t)}const r=localStorage.getItem("blog-theme")||"light";l(r);a.addEventListener("click",m);
+</script></head> <body class="min-h-screen"> <!-- Navigation --> <header class="fixed top-0 left-0 right-0 z-50 bg-[var(--color-bg)]/90 backdrop-blur-sm"> <div class="max-w-6xl mx-auto px-6"> <div class="flex items-center justify-between h-20"> <!-- Logo --> <a href="/" class="font-serif text-xl tracking-wide text-[var(--color-fg)] hover:opacity-70 transition-opacity"> 寥廓江天 </a> <!-- Center Navigation --> <nav class="hidden sm:flex items-center gap-8 absolute left-1/2 -translate-x-1/2"> <a href="/blog" class="text-sm tracking-widest uppercase text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
+博客
+</a> <a href="/about" class="text-sm tracking-widest uppercase text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
+关于
+</a> </nav> <!-- Right Actions --> <div class="flex items-center gap-2"> <!-- Mobile Menu Button --> <button class="sm:hidden p-2 text-[var(--color-fg)]" aria-label="菜单"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <line x1="3" y1="6" x2="21" y2="6"></line> <line x1="3" y1="12" x2="21" y2="12"></line> <line x1="3" y1="18" x2="21" y2="18"></line> </svg> </button> <button id="theme-toggle" class="p-2 rounded-full text-[var(--color-muted)] hover:text-[var(--color-fg)] hover:bg-[var(--color-hover)] transition-colors" aria-label="切换主题"> <!-- Sun icon --> <svg id="icon-sun" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <circle cx="12" cy="12" r="5"></circle> <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path> </svg> <!-- Moon icon --> <svg id="icon-moon" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path> </svg> <!-- Blue icon --> <svg id="icon-blue" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <circle cx="12" cy="12" r="10"></circle> <circle cx="12" cy="12" r="4" fill="currentColor"></circle> </svg> </button>  </div> </div> </div> </header> <!-- Main Content --> <main class="pt-20">  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12"> <!-- Back Button --> <a href="/blog" class="inline-flex items-center gap-2 text-[var(--color-muted)] hover:text-[var(--color-fg)] mb-8 transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="m15 18-6-6 6-6"></path> </svg>
+返回博客
+</a> <!-- Header --> <header class="mb-12"> <div class="aspect-video rounded-xl overflow-hidden mb-8"> <img src="/hero.jpg" alt="卫星通信基础#2" class="w-full h-full object-cover"> </div> <div class="flex flex-wrap items-center gap-3 mb-4 text-sm text-[var(--color-muted)]"> <time datetime="2026-06-14T00:00:00.000Z"> 2026年6月14日 </time> <span>
+· 更新于 2026年6月14日 </span>  </div> <h1 class="font-serif text-3xl sm:text-4xl font-bold text-[var(--color-fg)] mb-4"> 卫星通信基础#2 </h1> <p class="text-lg text-[var(--color-muted)]">卫星通信基础</p> <div class="flex flex-wrap gap-2 mt-6"> <a href="/tags/博客" class="text-sm px-3 py-1 text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors">
+#博客 </a><a href="/tags/卫星通信" class="text-sm px-3 py-1 text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors">
+#卫星通信 </a> </div> </header> <!-- Content --> <div class="prose-custom prose-lg max-w-none"> <h1 id="卫星运动轨道">卫星运动轨道</h1>
+<h2 id="开普勒三定律卫星轨道力学基础">开普勒三定律（卫星轨道力学基础）</h2>
+<p>> <strong>背景</strong>：由德国天文学家 <strong>约翰内斯·开普勒（Johannes Kepler，1571–1630）</strong> 于1609–1619年提出，基于第谷·布拉赫的观测数据总结得出，描述了行星绕太阳运动的规律，后推广应用于所有人造地球卫星的轨道运动。</p>
+<hr>
+<h3 id="开普勒第一定律轨道定律">开普勒第一定律（轨道定律）</h3>
+<p><strong>表述</strong>：所有行星绕太阳运动的轨道都是<strong>椭圆</strong>，太阳位于椭圆的一个<strong>焦点</strong>上。</p>
+<p><strong>推广到卫星</strong>：
+> 人造地球卫星绕地球运行的轨道是<strong>椭圆</strong>，地球位于椭圆的一个焦点上。</p>
+<p><strong>关键参数</strong>：</p>
+<ul>
+<li><strong>近地点（Perigee）</strong>：轨道上距地心最近的点</li>
+<li><strong>远地点（Apogee）</strong>：轨道上距地心最远的点</li>
+<li><strong>半长轴（a）</strong>：椭圆长轴的一半，决定轨道大小</li>
+</ul>
+<hr>
+<h3 id="开普勒第二定律面积定律">开普勒第二定律（面积定律）</h3>
+<p><strong>表述</strong>：行星与太阳的连线在相等时间内<strong>扫过相等的面积</strong>。</p>
+<p><strong>推广到卫星</strong>：</p>
+<blockquote>
+<p>卫星与地心的连线在相等时间内扫过相等的面积。</p>
+</blockquote>
+<p><strong>物理含义</strong>：</p>
+<ul>
+<li>卫星在<strong>近地点速度最大</strong></li>
+<li>卫星在<strong>远地点速度最小</strong></li>
+<li>角动量守恒的体现</li>
+</ul>
+<p><strong>速度公式</strong>：
+$$v = \sqrt{\mu \left( \frac{2}{r} - \frac{1}{a} \right)}$$</p>
+<p>其中 $\mu = GM$（地球引力常数），$r$ 为瞬时轨道半径，$a$ 为半长轴。</p>
+<hr>
+<h3 id="开普勒第三定律周期定律">开普勒第三定律（周期定律）</h3>
+<p><strong>表述</strong>：行星轨道<strong>半长轴的三次方</strong>与<strong>公转周期的二次方</strong>之比为常数。</p>
+<p>$$\frac{a^3}{T^2} = \frac{GM}{4\pi^2} = \text{常数}$$</p>
+<p><strong>推广到卫星</strong>：</p>
+<blockquote>
+<p>卫星轨道半长轴的三次方与运行周期的二次方之比为常数。</p>
+</blockquote>
+<p><strong>应用公式</strong>：
+$$T = 2\pi \sqrt{\frac{a^3}{\mu}}$$</p>
+<p><strong>典型轨道参数</strong>：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>轨道类型</th><th>半长轴 $a$</th><th>周期 $T$</th><th>特点</th></tr></thead><tbody><tr><td>低地球轨道（LEO）</td><td>~6,700 km</td><td>~90–120 min</td><td>遥感、通信星座</td></tr><tr><td>中地球轨道（MEO）</td><td>~26,560 km</td><td>~12 h</td><td>导航卫星（GPS、北斗）</td></tr><tr><td>地球同步轨道（GEO）</td><td>~42,164 km</td><td>23h56m4s ≈ 1恒星日</td><td>通信、广播</td></tr><tr><td>地球静止轨道</td><td>~42,164 km</td><td>= 24 h（太阳日）</td><td>相对地面静止</td></tr></tbody></table>
+<blockquote>
+<p>注：地球静止轨道是倾角为0°的地球同步轨道，卫星始终位于赤道上空固定点。</p>
+</blockquote>
+<hr>
+<h3 id="三定律总结">三定律总结</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>定律</th><th>核心内容</th><th>决定因素</th></tr></thead><tbody><tr><td><strong>第一定律</strong></td><td>轨道形状为椭圆</td><td>轨道能量与角动量</td></tr><tr><td><strong>第二定律</strong></td><td>速度随位置变化</td><td>角动量守恒</td></tr><tr><td><strong>第三定律</strong></td><td>轨道周期与轨道半长轴关系</td><td>中心天体质量</td></tr></tbody></table>
+<hr>
+<h3 id="卫星轨道设计意义">卫星轨道设计意义</h3>
+<ul>
+<li><strong>轨道选择</strong>：根据任务需求（覆盖、时延、重访周期）选择合适轨道高度</li>
+<li><strong>星座部署</strong>：利用第三定律精确计算多颗卫星的轨道参数，实现全球覆盖</li>
+<li><strong>轨道预测</strong>：基于三定律可精确预报卫星位置，支撑测控、通信链路建立</li>
+</ul>
+<hr>
+<h2 id="卫星轨道要素">卫星轨道要素</h2>
+<p>> 描述卫星椭圆轨道在空间中的位置、形状和方向的基本要素，是轨道确定和预测的基础。</p>
+<hr>
+<h3 id="远地点apogee">远地点（Apogee）</h3>
+<p><strong>定义</strong>：卫星椭圆轨道上距<strong>地心最远</strong>的点。</p>
+<p><strong>参数</strong>：</p>
+<ul>
+<li><strong>远地点高度（$h_a$）</strong>：远地点到地球表面的垂直距离</li>
+<li><strong>远地点距离（$r_a$）</strong>：远地点到地心的距离，$r_a = a(1 + e)$</li>
+</ul>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>卫星速度<strong>最小</strong>（开普勒第二定律）</li>
+<li>通信时延最大、信号最弱</li>
+</ul>
+<hr>
+<h3 id="近地点perigee">近地点（Perigee）</h3>
+<p><strong>定义</strong>：卫星椭圆轨道上距<strong>地心最近</strong>的点。</p>
+<p><strong>参数</strong>：</p>
+<ul>
+<li><strong>近地点高度（$h_p$）</strong>：近地点到地球表面的垂直距离</li>
+<li><strong>近地点距离（$r_p$）</strong>：近地点到地心的距离，$r_p = a(1 - e)$</li>
+</ul>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>卫星速度<strong>最大</strong>（开普勒第二定律）</li>
+<li>大气阻力影响最显著（尤其低轨卫星）</li>
+</ul>
+<p><strong>关系公式</strong>：
+$$r_a + r_p = 2a$$
+$$e = \frac{r_a - r_p}{r_a + r_p} = \frac{r_a - r_p}{2a}$$</p>
+<p>其中 $a$ 为半长轴，$e$ 为偏心率。</p>
+<hr>
+<h3 id="拱线line-of-apsides">拱线（Line of Apsides）</h3>
+<p><strong>定义</strong>：通过<strong>近地点</strong>和<strong>远地点</strong>的直线，即椭圆轨道的<strong>长轴</strong>。</p>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>拱线方向决定了轨道在轨道平面内的指向</li>
+<li>与地心（焦点）共线</li>
+<li>是描述轨道平面内方向的重要参考线</li>
+</ul>
+<hr>
+<h3 id="升交点ascending-node">升交点（Ascending Node）</h3>
+<p><strong>定义</strong>：卫星从南半球向北半球运动时，穿越<strong>赤道平面</strong>的点。</p>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>卫星纬度由负变正的临界点</li>
+<li>轨道与赤道平面相交的两个点之一</li>
+</ul>
+<hr>
+<h3 id="降交点descending-node">降交点（Descending Node）</h3>
+<p><strong>定义</strong>：卫星从北半球向南半球运动时，穿越<strong>赤道平面</strong>的点。</p>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>卫星纬度由正变负的临界点</li>
+<li>轨道与赤道平面相交的另一个点</li>
+</ul>
+<hr>
+<ul>
+<li>升交点：南 → 北（纬度↑）</li>
+<li>降交点：北 → 南（纬度↓）</li>
+</ul>
+<hr>
+<h3 id="交点线line-of-nodes">交点线（Line of Nodes）</h3>
+<p><strong>定义</strong>：连接<strong>升交点</strong>和<strong>降交点</strong>的直线，即轨道平面与赤道平面的<strong>交线</strong>。</p>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>交点线通过地心</li>
+<li>是轨道平面与赤道平面相交的完整直线</li>
+<li>升交点和降交点位于交点线与卫星轨道的交点处</li>
+</ul>
+<hr>
+<h3 id="轨道倾角orbital-inclination-i">轨道倾角（Orbital Inclination, $i$）</h3>
+<p><strong>定义</strong>：卫星轨道平面与<strong>地球赤道平面</strong>之间的夹角。</p>
+<p><strong>计量方式</strong>：在升交点处，从赤道平面逆时针测量到轨道平面的角度（0° ≤ $i$ ≤ 180°）。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>倾角类型</th><th>范围</th><th>特点</th></tr></thead><tbody><tr><td><strong>赤道轨道</strong></td><td>$i = 0°$</td><td>轨道在赤道平面内，如地球静止轨道</td></tr><tr><td><strong>顺行轨道</strong></td><td>$0° &#x3C; i &#x3C; 90°$</td><td>与地球自转同向，大多数卫星采用</td></tr><tr><td><strong>极地轨道</strong></td><td>$i = 90°$</td><td>经过南北极，可实现全球覆盖</td></tr><tr><td><strong>逆行轨道</strong></td><td>$90° &#x3C; i &#x3C; 180°$</td><td>与地球自转反向，如部分太阳同步轨道</td></tr><tr><td><strong>逆行赤道</strong></td><td>$i = 180°$</td><td>理论存在，实际极少使用</td></tr></tbody></table>
+<p><strong>重要应用</strong>：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>倾角</th><th>典型应用</th></tr></thead><tbody><tr><td>$0°$</td><td>地球静止轨道（GEO）通信、广播卫星</td></tr><tr><td>~55°–65°</td><td>导航星座（GPS $i=55°$，北斗 MEO $i=55°$）</td></tr><tr><td>$97°$–$98°$</td><td>太阳同步轨道（SSO）遥感卫星</td></tr><tr><td>$90°$</td><td>极地轨道侦察、气象卫星</td></tr></tbody></table>
+<hr>
+<h3 id="近地点幅角argument-of-perigee-omega">近地点幅角（Argument of Perigee, $\omega$）</h3>
+<p><strong>定义</strong>：在轨道平面内，从<strong>升交点</strong>到<strong>近地点</strong>所张的角度，沿卫星运动方向测量。</p>
+<p><strong>范围</strong>：$0° \leq \omega &#x3C; 360°$</p>
+<p><strong>物理意义</strong>：</p>
+<ul>
+<li>确定椭圆轨道在轨道平面内的<strong>指向</strong></li>
+<li>即拱线（长轴）相对于交点线的方位</li>
+</ul>
+<p><strong>几何关系</strong>：
+$$\omega = \text{升交点} \xrightarrow{\text{沿运动方向}} \text{近地点}$$</p>
+<p><strong>特殊情况</strong>：</p>
+<ul>
+<li>$\omega = 0°$：近地点与升交点重合</li>
+<li>$\omega = 90°$：近地点位于升交点之后90°（轨道”最北”处）</li>
+<li>$\omega = 180°$：近地点与降交点重合</li>
+<li>$\omega = 270°$：近地点位于降交点之后90°（轨道”最南”处）</li>
+</ul>
+<hr>
+<h3 id="右旋升交点赤经right-ascension-of-ascending-node-omega">右旋升交点赤经（Right Ascension of Ascending Node, $\Omega$）</h3>
+<p><strong>定义</strong>：在<strong>赤道平面</strong>内，从春分点方向（vernal equinox）到<strong>升交点</strong>所张的角度，沿地球自转方向（逆时针/右旋）测量。</p>
+<p><strong>别名</strong>：升交点赤经、RAAN</p>
+<p><strong>范围</strong>：$0° \leq \Omega &#x3C; 360°$</p>
+<p><strong>物理意义</strong>：</p>
+<ul>
+<li>确定轨道平面与赤道平面交线（交点线）在赤道平面内的<strong>绝对指向</strong></li>
+<li>以惯性空间中固定的春分点方向为基准</li>
+</ul>
+<p><strong>春分点方向</strong>：</p>
+<ul>
+<li>地球赤道平面与黄道平面的交线之一</li>
+<li>指向白羊座第一点的方向，在惯性空间中近似固定</li>
+</ul>
+<p><strong>几何关系</strong>：
+$$\Omega = \text{春分点方向} \xrightarrow{\text{右旋}} \text{升交点}$$</p>
+<hr>
+<h3 id="平近点角mean-anomaly-m">平近点角（Mean Anomaly, $M$）</h3>
+<p><strong>定义</strong>：假设卫星以<strong>平均角速度</strong> $n$ 在<strong>圆轨道</strong>上运动，从近地点开始经过的时间所对应的角度。</p>
+<p><strong>公式</strong>：
+$$M = n \cdot (t - t_p)$$</p>
+<p>其中：</p>
+<ul>
+<li>$n = \sqrt{\frac{\mu}{a^3}}$ 为平均角速度（由开普勒第三定律）</li>
+<li>$t_p$ 为近地点时刻</li>
+<li>$t$ 为当前时刻</li>
+</ul>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>是<strong>假想圆轨道</strong>上的角度，卫星实际并不在此位置</li>
+<li>随时间<strong>均匀变化</strong>，便于计算和轨道预测</li>
+<li>是连接时间与轨道位置的<strong>中间变量</strong></li>
+</ul>
+<p><strong>用途</strong>：</p>
+<ul>
+<li>通过开普勒方程 $M = E - e \sin E$ 求解偏近点角 $E$</li>
+<li>再由 $E$ 求解真近点角 $\nu$</li>
+</ul>
+<hr>
+<h3 id="真近点角true-anomaly-nu-或-theta">真近点角（True Anomaly, $\nu$ 或 $\theta$）</h3>
+<p><strong>定义</strong>：在轨道平面内，从<strong>近地点</strong>到卫星<strong>实际位置</strong>所张的角度，沿运动方向测量。</p>
+<p><strong>范围</strong>：$0° \leq \nu &#x3C; 360°$</p>
+<p><strong>物理意义</strong>：</p>
+<ul>
+<li>描述卫星在椭圆轨道上的<strong>真实瞬时位置</strong></li>
+<li>是轨道六要素中<strong>唯一随时间快速变化</strong>的参数</li>
+</ul>
+<p><strong>与平近点角的关系</strong>：</p>
+<ul>
+<li>通过<strong>偏近点角 $E$</strong> 建立联系：
+<ul>
+<li>开普勒方程：$M = E - e \sin E$</li>
+<li>转换公式：$\tan\frac{\nu}{2} = \sqrt{\frac{1+e}{1-e}} \cdot \tan\frac{E}{2}$</li>
+</ul>
+</li>
+</ul>
+<p><strong>几何关系</strong>：
+$$\nu = \text{近地点} \xrightarrow{\text{沿运动方向}} \text{卫星实际位置}$$</p>
+<hr>
+<h2 id="三种近点角对比">三种”近点角”对比</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>名称</th><th>轨道类型</th><th>变化规律</th><th>用途</th></tr></thead><tbody><tr><td>$M$</td><td>平近点角</td><td>假想圆轨道</td><td>均匀变化</td><td>时间→位置的桥梁</td></tr><tr><td>$E$</td><td>偏近点角</td><td>辅助圆轨道</td><td>非均匀变化</td><td>连接 $M$ 与 $\nu$</td></tr><tr><td>$\nu$</td><td>真近点角</td><td>真实椭圆轨道</td><td>非均匀变化</td><td>卫星真实位置</td></tr></tbody></table>
+<p><strong>转换流程</strong>：</p>
+<hr>
+<h3 id="轨道六要素轨道六根数">轨道六要素（轨道六根数）</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>要素</th><th>符号</th><th>物理意义</th></tr></thead><tbody><tr><td>半长轴</td><td>$a$</td><td>轨道大小（决定周期）</td></tr><tr><td>偏心率</td><td>$e$</td><td>轨道形状（圆/椭圆）</td></tr><tr><td>轨道倾角</td><td>$i$</td><td>轨道平面与赤道面夹角</td></tr><tr><td>升交点赤经</td><td>$\Omega$</td><td>交点线在赤道平面内的指向</td></tr><tr><td>近地点幅角</td><td>$\omega$</td><td>拱线在轨道平面内的指向</td></tr><tr><td>真近点角</td><td>$\nu$</td><td>卫星在轨道上的瞬时位置</td></tr></tbody></table>
+<blockquote>
+<p><strong>已知这六个参数</strong>，结合开普勒定律，即可精确计算任意时刻卫星在惯性空间中的三维位置和速度矢量。</p>
+</blockquote> </div> <!-- Footer --> <footer class="mt-16 pt-8 border-t border-[var(--color-border)]"> <div class="flex items-center justify-between"> <a href="/blog" class="inline-flex items-center gap-2 text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="m15 18-6-6 6-6"></path> </svg>
+返回博客
+</a> <a href="https://github.com/BaiXious" class="text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
+在 GitHub 上编辑
+</a> </div> </footer> </article>  <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-[var(--color-border)]"> <h2 class="font-serif text-2xl font-semibold text-[var(--color-fg)] mb-8">相关文章</h2> <div class="grid gap-6"> <article class="card p-6"> <div class="flex flex-wrap items-center gap-3 mb-2 text-sm text-[var(--color-muted)]"> <time datetime="2024-02-12T00:00:00.000Z">2024年2月12日</time> </div> <h3 class="font-serif text-lg font-semibold mb-2"> <a href="/blog/hello-world" class="text-[var(--color-fg)] hover:text-[var(--color-accent)] transition-colors"> 欢迎来到我的数字花园 </a> </h3> <p class="text-[var(--color-muted)] text-sm line-clamp-2">这是一篇示例文章，展示博客的基本功能和样式。</p> </article><article class="card p-6"> <div class="flex flex-wrap items-center gap-3 mb-2 text-sm text-[var(--color-muted)]"> <time datetime="2026-06-07T00:00:00.000Z">2026年6月7日</time> </div> <h3 class="font-serif text-lg font-semibold mb-2"> <a href="/blog/satellite-basic" class="text-[var(--color-fg)] hover:text-[var(--color-accent)] transition-colors"> 卫星通信基础#1 </a> </h3> <p class="text-[var(--color-muted)] text-sm line-clamp-2">卫星通信基础</p> </article><article class="card p-6"> <div class="flex flex-wrap items-center gap-3 mb-2 text-sm text-[var(--color-muted)]"> <time datetime="2026-02-13T00:00:00.000Z">2026年2月13日</time> </div> <h3 class="font-serif text-lg font-semibold mb-2"> <a href="/blog/test-basic" class="text-[var(--color-fg)] hover:text-[var(--color-accent)] transition-colors"> 测试笔记#0 </a> </h3> <p class="text-[var(--color-muted)] text-sm line-clamp-2">测试基础方法论</p> </article> </div> </section> </main> <!-- Footer --> <footer class="py-12 mt-20"> <div class="max-w-6xl mx-auto px-6"> <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[var(--color-muted)]"> <p>© 2026 BaiXious</p> <div class="flex items-center gap-6"> <a href="/rss.xml" class="hover:text-[var(--color-fg)] transition-colors">RSS</a> <a href="https://github.com/BaiXious" class="hover:text-[var(--color-fg)] transition-colors">GitHub</a> </div> </div> </div> </footer> </body></html>

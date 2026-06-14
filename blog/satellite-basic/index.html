@@ -1,0 +1,393 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>卫星通信基础#1 | 寥廓江天</title><meta name="description" content="卫星通信基础"><link rel="canonical" href="https://baixious.github.io/blog/satellite-basic/"><!-- Open Graph --><meta property="og:type" content="article"><meta property="og:url" content="https://baixious.github.io/blog/satellite-basic/"><meta property="og:title" content="卫星通信基础#1"><meta property="og:description" content="卫星通信基础"><meta property="og:image" content="https://baixious.github.io/og-image.png"><meta property="og:site_name" content="寥廓江天"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://baixious.github.io/blog/satellite-basic/"><meta property="twitter:title" content="卫星通信基础#1"><meta property="twitter:description" content="卫星通信基础"><meta property="twitter:image" content="https://baixious.github.io/og-image.png"><meta property="article:published_time" content="2026-06-07T00:00:00.000Z"><meta property="article:author" content="BaiXious"><!-- RSS --><link rel="alternate" type="application/rss+xml" title="寥廓江天" href="/rss.xml"><!-- Theme initialization script --><script>
+      (function() {
+        const theme = localStorage.getItem('blog-theme') || 'light';
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else if (theme === 'blue') {
+          document.documentElement.classList.add('blue');
+        }
+      })();
+    </script><link rel="stylesheet" href="/_astro/about.C3CwSZGF.css"><script type="module">const a=document.getElementById("theme-toggle"),o=document.getElementById("icon-sun"),c=document.getElementById("icon-moon"),d=document.getElementById("icon-blue");function l(e){o.classList.add("hidden"),c.classList.add("hidden"),d.classList.add("hidden"),e==="light"?o.classList.remove("hidden"):e==="dark"?c.classList.remove("hidden"):e==="blue"&&d.classList.remove("hidden")}function u(){const e=document.documentElement;return e.classList.contains("blue")?"blue":e.classList.contains("dark")?"dark":"light"}function m(){const e=u(),n=["light","dark","blue"],i=(n.indexOf(e)+1)%n.length,t=n[i],s=document.documentElement;s.classList.remove("dark","blue"),t==="dark"?s.classList.add("dark"):t==="blue"&&s.classList.add("blue"),localStorage.setItem("blog-theme",t),l(t)}const r=localStorage.getItem("blog-theme")||"light";l(r);a.addEventListener("click",m);
+</script></head> <body class="min-h-screen"> <!-- Navigation --> <header class="fixed top-0 left-0 right-0 z-50 bg-[var(--color-bg)]/90 backdrop-blur-sm"> <div class="max-w-6xl mx-auto px-6"> <div class="flex items-center justify-between h-20"> <!-- Logo --> <a href="/" class="font-serif text-xl tracking-wide text-[var(--color-fg)] hover:opacity-70 transition-opacity"> 寥廓江天 </a> <!-- Center Navigation --> <nav class="hidden sm:flex items-center gap-8 absolute left-1/2 -translate-x-1/2"> <a href="/blog" class="text-sm tracking-widest uppercase text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
+博客
+</a> <a href="/about" class="text-sm tracking-widest uppercase text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
+关于
+</a> </nav> <!-- Right Actions --> <div class="flex items-center gap-2"> <!-- Mobile Menu Button --> <button class="sm:hidden p-2 text-[var(--color-fg)]" aria-label="菜单"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <line x1="3" y1="6" x2="21" y2="6"></line> <line x1="3" y1="12" x2="21" y2="12"></line> <line x1="3" y1="18" x2="21" y2="18"></line> </svg> </button> <button id="theme-toggle" class="p-2 rounded-full text-[var(--color-muted)] hover:text-[var(--color-fg)] hover:bg-[var(--color-hover)] transition-colors" aria-label="切换主题"> <!-- Sun icon --> <svg id="icon-sun" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <circle cx="12" cy="12" r="5"></circle> <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path> </svg> <!-- Moon icon --> <svg id="icon-moon" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path> </svg> <!-- Blue icon --> <svg id="icon-blue" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <circle cx="12" cy="12" r="10"></circle> <circle cx="12" cy="12" r="4" fill="currentColor"></circle> </svg> </button>  </div> </div> </div> </header> <!-- Main Content --> <main class="pt-20">  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12"> <!-- Back Button --> <a href="/blog" class="inline-flex items-center gap-2 text-[var(--color-muted)] hover:text-[var(--color-fg)] mb-8 transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="m15 18-6-6 6-6"></path> </svg>
+返回博客
+</a> <!-- Header --> <header class="mb-12"> <div class="aspect-video rounded-xl overflow-hidden mb-8"> <img src="/hero.jpg" alt="卫星通信基础#1" class="w-full h-full object-cover"> </div> <div class="flex flex-wrap items-center gap-3 mb-4 text-sm text-[var(--color-muted)]"> <time datetime="2026-06-07T00:00:00.000Z"> 2026年6月7日 </time> <span>
+· 更新于 2026年6月7日 </span>  </div> <h1 class="font-serif text-3xl sm:text-4xl font-bold text-[var(--color-fg)] mb-4"> 卫星通信基础#1 </h1> <p class="text-lg text-[var(--color-muted)]">卫星通信基础</p> <div class="flex flex-wrap gap-2 mt-6"> <a href="/tags/博客" class="text-sm px-3 py-1 text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors">
+#博客 </a><a href="/tags/卫星通信" class="text-sm px-3 py-1 text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors">
+#卫星通信 </a> </div> </header> <!-- Content --> <div class="prose-custom prose-lg max-w-none"> <h1 id="卫星通信定义">卫星通信定义</h1>
+<h2 id="一国际电信联盟itu定义">一、国际电信联盟（ITU）定义</h2>
+<p><strong>1979年ITU世界无线电行政大会</strong>对空间无线电通信的定义为：</p>
+<blockquote>
+<p>包括利用一个或多个空间站，或利用一个或多个反射卫星，或空间中其他物体所进行的任何无线电通信，统称为<strong>空间无线电通信</strong>。它可以是空间站和地球站之间的通信，也可以是空间站之间的通信，还可以是地球站相互间通过空间站的转发或反射进行通信。</p>
+</blockquote>
+<hr>
+<h2 id="二国内教材与标准定义">二、国内教材与标准定义</h2>
+<h3 id="1-狭义定义主流教材">1. 狭义定义（主流教材）</h3>
+<blockquote>
+<p><strong>卫星通信（SATCOM）是利用人造地球卫星作为中继站，转发两个或多个地球站之间的无线信号的无线电通信</strong>，是通信技术、计算机技术和航空航天技术相结合的重要成果。</p>
+</blockquote>
+<h3 id="2-广义定义系统层面">2. 广义定义（系统层面）</h3>
+<blockquote>
+<p>卫星通信可实现地球站之间、地球站与空间站之间、空间站之间通信，以通信卫星为中继站实现天地互联。</p>
+</blockquote>
+<h3 id="3-技术实现定义">3. 技术实现定义</h3>
+<blockquote>
+<p>卫星通信是指利用卫星作为中继站转发无线电磁波，以此来实现两个或多个地球站之间或地球站与航天器之间通信的一种通信方式。</p>
+</blockquote>
+<hr>
+<h2 id="三国家标准与军用规范">三、国家标准与军用规范</h2>
+<h3 id="卫星通信系统通用规范gjb-1034-1990">《卫星通信系统通用规范》（GJB 1034-1990）</h3>
+<ul>
+<li>
+<p>定义：利用人造卫星作为中继站进行通信</p>
+</li>
+<li>
+<p>业务分类：固定卫星业务(FSS)、广播卫星业务(BSS)、移动卫星业务(MSS)</p>
+</li>
+<li>
+<p>体制分类：频分多址(FDMA)、时分多址(TDMA)、码分多址(CDMA)、空分多址(SDMA)及混合多址方式<a href="https://www.tup.tsinghua.edu.cn/upload/books/yz/046120-01.pdf">1</a></p>
+</li>
+</ul>
+<hr>
+<h2 id="四最新技术演进定义2025年">四、最新技术演进定义（2025年）</h2>
+<p>随着非地面网络（NTN）和直连设备（D2D）技术的发展，卫星通信的定义也在扩展：</p>
+<blockquote>
+<p><strong>卫星通信技术</strong>是一种利用人造地球卫星作为中继站来转发无线电波而进行的两个或多个地球站之间的通信，实现从以往单一的地面接入，进阶至空（飞行、浮动基站）天（导航、通信、遥感卫星）地（地面基站）海（船上通信基站）均可接入。</p>
+</blockquote>
+<h1 id="卫星通信基本特点">卫星通信基本特点</h1>
+<ol>
+<li>卫星通信系统的服务范围宽，一颗地球同步轨道（GEO）卫星可覆盖约42.4%的地球表面，三颗即可覆盖除极地外的大部分区域；且不受地形、地物等自然条件限制，可在偏远山区、海岛、沙漠、海上平台等地建立通信链路。</li>
+<li>可利用的带宽较宽。实际上，这些频段是离散分配的，并非连续覆盖。卫星通信可用频段包括UHF（300MHz–3GHz）、L（1–2GHz）、S（2–4GHz）、C（4–8GHz）、X（8–12.5GHz）、Ku（12.5–18GHz）、Ka（26.5–40GHz）等，各频段带宽从十几MHz到数GHz不等，且正在向Q/V频段（40–60GHz）扩展。</li>
+<li>卫星通信系统与地面通信基础设施相对独立，网络路由简洁。用户之间的通信不依赖于地面通信网，对于地面通信基础设施不足的地区和国家具有重要意义。</li>
+<li>网络建设速度快，地球站部署灵活（VSAT端站可在数小时内建成），在系统容量范围内增加地球站的边际成本较低。但卫星通信系统的总体建设和运维成本仍显著高于地面通信网络，同样带宽的费用远高于地面网。</li>
+<li>由统一业务提供商运营有助于实现系统服务的均匀性和标准化，便于新业务的快速引入和全网推广。</li>
+<li>卫星通信系统独立于地面网络，构成的专网可确保信息安全；同时在自然灾害（地震、洪水等）或突发事件中，当地面网络受损时，卫星通信可作为应急备份和补充手段，具有快速响应和抗毁性强的特点。</li>
+</ol>
+<h1 id="卫星通信的诞生">卫星通信的诞生</h1>
+<h2 id="1-理论基础1940s">1. 理论基础（1940s）</h2>
+<ul>
+<li><strong>1945年</strong>：英国科幻作家 <strong>亚瑟·克拉克（Arthur C. Clarke）</strong> 在《无线电世界》杂志发表文章，首次提出<strong>地球同步轨道卫星</strong>用于通信的构想。</li>
+<li>他设想在距地面约 <strong>35,786 km</strong> 的赤道上空部署三颗卫星，即可覆盖全球除极地外的通信。</li>
+</ul>
+<h2 id="2-技术验证1950s1960s">2. 技术验证（1950s–1960s）</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>时间</th><th>事件</th><th>意义</th></tr></thead><tbody><tr><td><strong>1957年</strong></td><td>苏联发射 <strong>斯普特尼克1号（Sputnik 1）</strong></td><td>人类首颗人造卫星，开启太空时代</td></tr><tr><td><strong>1960年</strong></td><td>美国发射 <strong>回声1号（Echo 1）</strong></td><td>首个被动反射通信卫星（气球卫星）</td></tr><tr><td><strong>1962年</strong></td><td>美国发射 <strong>电星1号（Telstar 1）</strong></td><td>首颗<strong>有源中继</strong>通信卫星，实现跨大西洋电视直播</td></tr><tr><td><strong>1963年</strong></td><td>美国发射 <strong>辛康2号（Syncom 2）</strong></td><td>首颗进入地球同步轨道的卫星</td></tr><tr><td><strong>1964年</strong></td><td>美国发射 <strong>辛康3号（Syncom 3）</strong></td><td>首颗<strong>地球静止轨道</strong>卫星，成功转播东京奥运会</td></tr></tbody></table>
+<h2 id="3-商业化与国际化1960s1970s">3. 商业化与国际化（1960s–1970s）</h2>
+<ul>
+<li><strong>1964年</strong>：成立 <strong>国际通信卫星组织（INTELSAT）</strong>，推动卫星通信全球商业化。</li>
+<li><strong>1965年</strong>：INTELSAT发射 <strong>“Early Bird”（晨鸟号）</strong>，首颗商业通信卫星，提供欧美间240路电话或1路电视传输。</li>
+<li><strong>1970s</strong>：C波段、Ku波段卫星电视广播开始普及；海事卫星通信（INMARSAT，1979年）成立。</li>
+</ul>
+<h2 id="4-关键里程碑">4. 关键里程碑</h2>
+<ul>
+<li><strong>轨道高度</strong>：地球同步轨道（GEO）约 <strong>35,786 km</strong>；后续发展出中轨道（MEO）和低轨道（LEO）星座。</li>
+<li><strong>技术演进</strong>：从模拟通信 → 数字通信 → 高通量卫星（HTS）→ 低轨巨型星座（如Starlink）。</li>
+</ul>
+<h1 id="卫星术语">卫星术语</h1>
+<h2 id="地面站ground-station--earth-station">地面站（Ground Station / Earth Station）</h2>
+<p><strong>定义</strong>：位于地球表面，用于与卫星进行无线电信号收发和数据交换的设施。</p>
+<p><strong>组成</strong>：</p>
+<ul>
+<li>天线系统（抛物面天线为主）</li>
+<li>射频收发设备（高功率放大器、低噪声放大器）</li>
+<li>调制解调器与基带处理设备</li>
+<li>跟踪、遥测和指令（TT&#x26;C）系统</li>
+</ul>
+<p><strong>分类</strong>：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>类型</th><th>特点</th><th>典型应用</th></tr></thead><tbody><tr><td>关口站（Gateway）</td><td>大口径天线（数米至十几米），高功率</td><td>卫星互联网核心节点、广播上行</td></tr><tr><td>VSAT终端</td><td>甚小口径终端（0.6–2.4米），低成本</td><td>企业专网、偏远地区接入</td></tr><tr><td>便携式/移动站</td><td>可快速部署，轻量化</td><td>应急通信、军事、新闻直播</td></tr><tr><td>测控站</td><td>专用于卫星管理</td><td>轨道测定、指令发送、状态监测</td></tr></tbody></table>
+<hr>
+<h2 id="上行链路uplink">上行链路（Uplink）</h2>
+<p><strong>定义</strong>：从<strong>地面站向卫星</strong>传输信号的通信链路。</p>
+<p><strong>关键参数</strong>：</p>
+<ul>
+<li><strong>频率</strong>：通常高于下行链路（如C波段上行6 GHz / 下行4 GHz；Ku波段上行14 GHz / 下行11–12 GHz）</li>
+<li><strong>功率</strong>：需克服自由空间损耗，地面站发射功率较高（瓦级至千瓦级）</li>
+<li><strong>调制方式</strong>：QPSK、8PSK、16APSK、32APSK等</li>
+</ul>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>信号从地面强功率发射，穿越大气层到达卫星</li>
+<li>易受雨衰影响（尤其Ku/Ka频段）</li>
+<li>卫星接收灵敏度受限，需地面站提供足够链路余量</li>
+</ul>
+<hr>
+<h2 id="下行链路downlink">下行链路（Downlink）</h2>
+<p><strong>定义</strong>：从<strong>卫星向地面站</strong>传输信号的通信链路。</p>
+<p><strong>关键参数</strong>：</p>
+<ul>
+<li><strong>频率</strong>：通常低于上行链路</li>
+<li><strong>功率</strong>：受卫星能源和散热限制，卫星发射功率有限（瓦级至数百瓦）</li>
+<li><strong>覆盖</strong>：通过卫星天线波束设计实现区域或全球覆盖</li>
+</ul>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>信号从卫星弱功率发射，覆盖广大区域</li>
+<li>地面站需高灵敏度接收（低噪声放大器LNA/LNB）</li>
+<li>广播业务中，一个下行信号可被多个地面站同时接收</li>
+<li>同样受雨衰、大气吸收等影响</li>
+</ul>
+<p><strong>链路预算关系</strong>：</p>
+<blockquote>
+<p>系统设计中，上行链路与下行链路需分别计算载噪比（C/N），最终合并为总链路质量。</p>
+</blockquote>
+<hr>
+<h2 id="卫星平台satellite-bus--platform">卫星平台（Satellite Bus / Platform）</h2>
+<p><strong>定义</strong>：卫星中承载并支持<strong>有效载荷</strong>正常工作的通用化基础结构部分，又称”卫星公用舱”或”服务舱”。</p>
+<p><strong>主要子系统</strong>：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>子系统</th><th>功能</th></tr></thead><tbody><tr><td><strong>结构系统</strong></td><td>提供机械支撑，承受发射载荷</td></tr><tr><td><strong>电源系统</strong></td><td>太阳能电池阵 + 蓄电池组，提供能源</td></tr><tr><td><strong>姿态与轨道控制（AOCS）</strong></td><td>维持卫星姿态稳定和轨道位置</td></tr><tr><td><strong>推进系统</strong></td><td>轨道转移、位置保持、姿态调整</td></tr><tr><td><strong>热控系统</strong></td><td>管理卫星温度，保障设备正常工作</td></tr><tr><td><strong>遥测、跟踪与指令（TT&#x26;C）</strong></td><td>与地面测控站交互，传输状态数据、接收指令</td></tr></tbody></table>
+<hr>
+<h2 id="有效载荷payload">有效载荷（Payload）</h2>
+<p><strong>定义</strong>：有效载荷是卫星上<strong>直接执行特定任务功能</strong>的设备或系统，是卫星的”核心使命”所在，区别于提供通用支撑的卫星平台。</p>
+<blockquote>
+<p>简单理解：<strong>平台让卫星”活着”，载荷让卫星”干活”</strong>。</p>
+</blockquote>
+<h3 id="通信卫星的有效载荷">通信卫星的有效载荷</h3>
+<h4 id="1-透明转发器-bent-pipe--弯管式">1. 透明转发器（ Bent Pipe / 弯管式 ）</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>特点</th><th>说明</th></tr></thead><tbody><tr><td>工作原理</td><td>仅对信号进行频率变换和放大，不做处理</td></tr><tr><td>类比</td><td>像”镜子”或”中继站”，原样转发</td></tr><tr><td>优点</td><td>结构简单、时延小、成本低</td></tr><tr><td>缺点</td><td>无法抗干扰、频谱效率低、无法星上交换</td></tr></tbody></table>
+<p><strong>信号流程</strong>：</p>
+<p>地面上行信号 → 接收天线 → 低噪放 → 下变频 → 高功放 → 发射天线 → 地面下行</p>
+<h3 id="2-处理转发器-regenerative--再生式">2. 处理转发器（ Regenerative / 再生式 ）</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>特点</th><th>说明</th></tr></thead><tbody><tr><td>工作原理</td><td>在星上解调、处理、再调制后转发</td></tr><tr><td>类比</td><td>像”路由器”，具备信号再生能力</td></tr><tr><td>优点</td><td>抗干扰、可星上交换、频谱效率高、支持波束间路由</td></tr><tr><td>缺点</td><td>复杂度高、功耗大、成本较高</td></tr></tbody></table>
+<p><strong>信号流程</strong>：</p>
+<p>地面上行信号 → 接收 → 解调 → 基带处理/交换/路由 → 再调制 → 放大发射</p>
+<h3 id="有效载荷核心组成">有效载荷核心组成</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>组件</th><th>功能</th></tr></thead><tbody><tr><td><strong>天线系统</strong></td><td>收发信号，决定覆盖区域（全球波束、区域波束、点波束）</td></tr><tr><td><strong>转发器（Transponder）</strong></td><td>接收、变频、放大、发射信号的基本单元</td></tr><tr><td><strong>星上处理器（OBP）</strong></td><td>对信号进行解调、交换、路由等处理</td></tr><tr><td><strong>放大器（SSPA/TWTA）</strong></td><td>固态功率放大器（SSPA）或行波管放大器（TWTA），提供发射功率</td></tr></tbody></table>
+<h3 id="不同卫星的有效载荷示例">不同卫星的有效载荷示例</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>卫星类型</th><th>有效载荷</th><th>任务</th></tr></thead><tbody><tr><td><strong>通信卫星</strong></td><td>通信转发器、天线</td><td>电话、电视、数据传输</td></tr><tr><td><strong>遥感卫星</strong></td><td>光学相机、雷达、红外传感器</td><td>对地观测、资源调查</td></tr><tr><td><strong>导航卫星</strong></td><td>原子钟、导航信号发生器</td><td>定位、授时、导航</td></tr><tr><td><strong>气象卫星</strong></td><td>扫描辐射计、垂直探测器</td><td>气象预报、灾害监测</td></tr><tr><td><strong>科学卫星</strong></td><td>粒子探测器、望远镜</td><td>空间科学实验</td></tr></tbody></table>
+<hr>
+<h3 id="载荷与平台的关系总结">载荷与平台的关系总结</h3>
+<p>┌─────────────────────────────────────────┐
+│              卫星整体                    │
+│                                         │
+│  ┌─────────────────────────────────┐    │
+│  │         有效载荷 (Payload)       │    │
+│  │  ┌─────────┐    ┌─────────┐     │    │
+│  │  │ 通信转发器 │    │ 星上处理器│     │    │  ← 任务核心
+│  │  │ 遥感相机  │ or │ 科学仪器  │     │    │
+│  │  └─────────┘    └─────────┘     │    │
+│  └─────────────────────────────────┘    │
+│                                         │
+│  ┌─────────────────────────────────┐    │
+│  │         卫星平台 (Bus)           │    │
+│  │  电源 │ 姿态控制 │ 推进 │ 结构   │    │  ← 通用支撑
+│  └─────────────────────────────────┘    │
+│                                         │
+└─────────────────────────────────────────┘</p>
+<blockquote>
+<p><strong>设计原则</strong>：平台为载荷服务，载荷决定卫星的任务能力；两者接口标准化可实现平台复用，降低研制成本。</p>
+</blockquote>
+<hr> </div> <!-- Footer --> <footer class="mt-16 pt-8 border-t border-[var(--color-border)]"> <div class="flex items-center justify-between"> <a href="/blog" class="inline-flex items-center gap-2 text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="m15 18-6-6 6-6"></path> </svg>
+返回博客
+</a> <a href="https://github.com/BaiXious" class="text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
+在 GitHub 上编辑
+</a> </div> </footer> </article>  <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-[var(--color-border)]"> <h2 class="font-serif text-2xl font-semibold text-[var(--color-fg)] mb-8">相关文章</h2> <div class="grid gap-6"> <article class="card p-6"> <div class="flex flex-wrap items-center gap-3 mb-2 text-sm text-[var(--color-muted)]"> <time datetime="2024-02-12T00:00:00.000Z">2024年2月12日</time> </div> <h3 class="font-serif text-lg font-semibold mb-2"> <a href="/blog/hello-world" class="text-[var(--color-fg)] hover:text-[var(--color-accent)] transition-colors"> 欢迎来到我的数字花园 </a> </h3> <p class="text-[var(--color-muted)] text-sm line-clamp-2">这是一篇示例文章，展示博客的基本功能和样式。</p> </article><article class="card p-6"> <div class="flex flex-wrap items-center gap-3 mb-2 text-sm text-[var(--color-muted)]"> <time datetime="2026-06-14T00:00:00.000Z">2026年6月14日</time> </div> <h3 class="font-serif text-lg font-semibold mb-2"> <a href="/blog/satellite-basic02" class="text-[var(--color-fg)] hover:text-[var(--color-accent)] transition-colors"> 卫星通信基础#2 </a> </h3> <p class="text-[var(--color-muted)] text-sm line-clamp-2">卫星通信基础</p> </article><article class="card p-6"> <div class="flex flex-wrap items-center gap-3 mb-2 text-sm text-[var(--color-muted)]"> <time datetime="2026-02-13T00:00:00.000Z">2026年2月13日</time> </div> <h3 class="font-serif text-lg font-semibold mb-2"> <a href="/blog/test-basic" class="text-[var(--color-fg)] hover:text-[var(--color-accent)] transition-colors"> 测试笔记#0 </a> </h3> <p class="text-[var(--color-muted)] text-sm line-clamp-2">测试基础方法论</p> </article> </div> </section> </main> <!-- Footer --> <footer class="py-12 mt-20"> <div class="max-w-6xl mx-auto px-6"> <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[var(--color-muted)]"> <p>© 2026 BaiXious</p> <div class="flex items-center gap-6"> <a href="/rss.xml" class="hover:text-[var(--color-fg)] transition-colors">RSS</a> <a href="https://github.com/BaiXious" class="hover:text-[var(--color-fg)] transition-colors">GitHub</a> </div> </div> </div> </footer> </body></html>
