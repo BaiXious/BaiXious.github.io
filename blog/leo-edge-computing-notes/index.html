@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>低轨卫星边缘计算核心概念笔记 | 寥廓江天</title><meta name="description" content="解读齐普夫分布建模服务流行度、双时间尺度优化框架（iAOS 服务部署 + DS-MDDQN 任务卸载）的含义及其在低轨卫星边缘计算中的作用。"><link rel="canonical" href="https://baixious.github.io/blog/leo-edge-computing-notes/"><!-- Open Graph --><meta property="og:type" content="article"><meta property="og:url" content="https://baixious.github.io/blog/leo-edge-computing-notes/"><meta property="og:title" content="低轨卫星边缘计算核心概念笔记"><meta property="og:description" content="解读齐普夫分布建模服务流行度、双时间尺度优化框架（iAOS 服务部署 + DS-MDDQN 任务卸载）的含义及其在低轨卫星边缘计算中的作用。"><meta property="og:image" content="https://baixious.github.io/og-image.png"><meta property="og:site_name" content="寥廓江天"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://baixious.github.io/blog/leo-edge-computing-notes/"><meta property="twitter:title" content="低轨卫星边缘计算核心概念笔记"><meta property="twitter:description" content="解读齐普夫分布建模服务流行度、双时间尺度优化框架（iAOS 服务部署 + DS-MDDQN 任务卸载）的含义及其在低轨卫星边缘计算中的作用。"><meta property="twitter:image" content="https://baixious.github.io/og-image.png"><meta property="article:published_time" content="2026-08-02T00:00:00.000Z"><meta property="article:author" content="BaiXious"><!-- RSS --><link rel="alternate" type="application/rss+xml" title="寥廓江天" href="/rss.xml"><!-- Theme initialization script --><script>
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>低轨卫星计算与通信相关概念笔记 | 寥廓江天</title><meta name="description" content="解读齐普夫分布建模服务流行度、双时间尺度优化框架（iAOS 服务部署 + DS-MDDQN 任务卸载）的等相关概念及其在低轨卫星计算与通信中的作用。"><link rel="canonical" href="https://baixious.github.io/blog/leo-edge-computing-notes/"><!-- Open Graph --><meta property="og:type" content="article"><meta property="og:url" content="https://baixious.github.io/blog/leo-edge-computing-notes/"><meta property="og:title" content="低轨卫星计算与通信相关概念笔记"><meta property="og:description" content="解读齐普夫分布建模服务流行度、双时间尺度优化框架（iAOS 服务部署 + DS-MDDQN 任务卸载）的等相关概念及其在低轨卫星计算与通信中的作用。"><meta property="og:image" content="https://baixious.github.io/og-image.png"><meta property="og:site_name" content="寥廓江天"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://baixious.github.io/blog/leo-edge-computing-notes/"><meta property="twitter:title" content="低轨卫星计算与通信相关概念笔记"><meta property="twitter:description" content="解读齐普夫分布建模服务流行度、双时间尺度优化框架（iAOS 服务部署 + DS-MDDQN 任务卸载）的等相关概念及其在低轨卫星计算与通信中的作用。"><meta property="twitter:image" content="https://baixious.github.io/og-image.png"><meta property="article:published_time" content="2026-08-02T00:00:00.000Z"><meta property="article:author" content="BaiXious"><!-- RSS --><link rel="alternate" type="application/rss+xml" title="寥廓江天" href="/rss.xml"><!-- Theme initialization script --><script>
       (function() {
         const theme = localStorage.getItem('blog-theme') || 'light';
         if (theme === 'dark') {
@@ -14,7 +14,7 @@
 关于
 </a> </nav> <!-- Right Actions --> <div class="flex items-center gap-2"> <!-- Mobile Menu Button --> <button class="sm:hidden p-2 text-[var(--color-fg)]" aria-label="菜单"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <line x1="3" y1="6" x2="21" y2="6"></line> <line x1="3" y1="12" x2="21" y2="12"></line> <line x1="3" y1="18" x2="21" y2="18"></line> </svg> </button> <button id="theme-toggle" class="p-2 rounded-full text-[var(--color-muted)] hover:text-[var(--color-fg)] hover:bg-[var(--color-hover)] transition-colors" aria-label="切换主题"> <!-- Sun icon --> <svg id="icon-sun" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <circle cx="12" cy="12" r="5"></circle> <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path> </svg> <!-- Moon icon --> <svg id="icon-moon" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path> </svg> <!-- Blue icon --> <svg id="icon-blue" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <circle cx="12" cy="12" r="10"></circle> <circle cx="12" cy="12" r="4" fill="currentColor"></circle> </svg> </button>  </div> </div> </div> </header> <!-- Main Content --> <main class="pt-20">  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12"> <!-- Back Button --> <a href="/blog" class="inline-flex items-center gap-2 text-[var(--color-muted)] hover:text-[var(--color-fg)] mb-8 transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="m15 18-6-6 6-6"></path> </svg>
 返回博客
-</a> <!-- Header --> <header class="mb-12">  <div class="flex flex-wrap items-center gap-3 mb-4 text-sm text-[var(--color-muted)]"> <time datetime="2026-08-02T00:00:00.000Z"> 2026年8月2日 </time>   </div> <h1 class="font-serif text-3xl sm:text-4xl font-bold text-[var(--color-fg)] mb-4"> 低轨卫星边缘计算核心概念笔记 </h1> <p class="text-lg text-[var(--color-muted)]">解读齐普夫分布建模服务流行度、双时间尺度优化框架（iAOS 服务部署 + DS-MDDQN 任务卸载）的含义及其在低轨卫星边缘计算中的作用。</p> <div class="flex flex-wrap gap-2 mt-6"> <a href="/tags/低轨卫星边缘计算" class="text-sm px-3 py-1 text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors">
+</a> <!-- Header --> <header class="mb-12"> <div class="aspect-video rounded-xl overflow-hidden mb-8"> <img src="/cover_images/drip.png" alt="低轨卫星计算与通信相关概念笔记" class="w-full h-full object-cover"> </div> <div class="flex flex-wrap items-center gap-3 mb-4 text-sm text-[var(--color-muted)]"> <time datetime="2026-08-02T00:00:00.000Z"> 2026年8月2日 </time>   </div> <h1 class="font-serif text-3xl sm:text-4xl font-bold text-[var(--color-fg)] mb-4"> 低轨卫星计算与通信相关概念笔记 </h1> <p class="text-lg text-[var(--color-muted)]">解读齐普夫分布建模服务流行度、双时间尺度优化框架（iAOS 服务部署 + DS-MDDQN 任务卸载）的等相关概念及其在低轨卫星计算与通信中的作用。</p> <div class="flex flex-wrap gap-2 mt-6"> <a href="/tags/低轨卫星边缘计算" class="text-sm px-3 py-1 text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors">
 #低轨卫星边缘计算 </a><a href="/tags/边缘计算" class="text-sm px-3 py-1 text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors">
 #边缘计算 </a><a href="/tags/深度强化学习" class="text-sm px-3 py-1 text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors">
 #深度强化学习 </a> </div> </header> <!-- Content --> <div class="prose-custom prose-lg max-w-none"> <p>这篇笔记记录我对一段论文综述文字的理解。原文的核心是：<strong>用轻量化容器化边缘架构承载边缘服务，用齐普夫分布刻画服务需求规律，再用一个双时间尺度的优化框架分别解决”服务放哪”和”任务去哪”两个问题。</strong> 下面逐层拆解。</p>
@@ -169,6 +169,55 @@
 <h3 id="一句话总结-1">一句话总结</h3>
 <blockquote>
 <p>POMDP 回答”环境看不清怎么办”，MINLP 回答”问题算不动怎么办”。LSEC 的调度问题恰是两者的叠加——外部是部分可观测的动态环境，内部是混合整数非线性的优化内核；这也解释了为什么该领域的前沿研究纷纷转向深度强化学习：DRL 本质上就是求解 POMDP 的近似方法，而其动作空间设计（混合动作）必须覆盖 MINLP 中离散与连续变量的双重需求。</p>
+</blockquote>
+<h2 id="概念五lyapunov-虚拟能量队列--milp--bcd--a-ear能量约束下的分层求解闭环">概念五：Lyapunov 虚拟能量队列 → MILP → BCD → A-EAR——能量约束下的分层求解闭环</h2>
+<p>这四个术语来自 IEEE TMC 2026 论文 <strong>A-DOA</strong>，构成了一套从”精确建模”到”分解求解”再到”执行层路由”的分层优化框架。下面逐一解释其数学本质、在框架中的角色，以及生活化的直观理解。</p>
+<h3 id="一lyapunov-虚拟能量队列把长期约束变成信用卡账单">一、Lyapunov 虚拟能量队列——把长期约束变成”信用卡账单”</h3>
+<p><strong>数学定义</strong>：Lyapunov 优化理论中的约束转化技巧。“虚拟队列”是一个数学虚构：</p>
+<p>[
+Q(t+1) = \max{0,; Q(t) + E(t) - E_{\text{budget}}}
+]</p>
+<p>其中 (E(t)) 是当前时隙的实际能耗，(E_{\text{budget}}) 是长期平均能量预算。能耗超出预算 → 虚拟队列积压增加；能耗低于预算 → 队列逐渐清空。通过李雅普诺夫漂移加惩罚（Drift-plus-Penalty）框架，目标函数变为：</p>
+<p>[
+\min \left[ \text{AoI代价} + V \cdot \text{能量漂移} \right]
+]</p>
+<p>其中 (V) 是权衡参数——(V) 越大越侧重 AoI 优化，越小越保守于能量约束。</p>
+<p><strong>生活化类比（信用卡账单）</strong>：银行不要求每天都花一样多的钱，只要求长期平均每月不超过 5000 块。这周买了冰箱（超支 3000），下周少花点补回来。虚拟队列就是那个”记账本”——不真实存在，只是一个累计数。算法的目标就是<strong>别让这个记账本无限增长</strong>（数学上叫”队列稳定”）。<strong>核心价值：不需要预知未来能量状态即可在线满足长期约束。</strong></p>
+<h3 id="二milp-建模一份精确到每个细节的旅行计划表">二、MILP 建模——“一份精确到每个细节的旅行计划表”</h3>
+<p><strong>数学定义</strong>：MILP = Mixed Integer Linear Programming（混合整数线性规划）。目标函数和约束都是线性的，但部分决策变量必须是整数或 0-1 二元变量（如”是否走这条链路”、“任务是否卸载到卫星 (k)”），其余为连续变量（如压缩率、功率分配比例）。A-DOA 将路由选择、卸载决策和压缩率统一建模为一个 MILP。</p>
+<p><strong>生活化类比（旅行计划表）</strong>：从北京到三亚出差，同时决定坐哪趟高铁（0-1）、在哪换乘（0-1）、每个座位花多少钱（连续）——写成一张超大 Excel 表求”总时间最短 + 总花费最少”。</p>
+<p><strong>好处</strong>：数学上可通过分支定界等精确算法求得<strong>全局最优解</strong>，作为理论基准。<strong>致命代价</strong>：求解复杂度随变量数<strong>指数级增长</strong>——在巨型星座（数百卫星 × 数十条 ISL × 数十个任务）中完全不可行。</p>
+<h3 id="三bcd-启发式求解一次只搬一件行李">三、BCD 启发式求解——“一次只搬一件行李”</h3>
+<p><strong>定义</strong>：BCD = Block Coordinate Descent（块坐标下降法）。核心伪代码：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Repeat until convergence:</span></span>
+<span class="line"><span>  Block 1: 固定路由和压缩 → 优化卸载</span></span>
+<span class="line"><span>  Block 2: 固定卸载和压缩 → 优化路由</span></span>
+<span class="line"><span>  Block 3: 固定路由和卸载 → 优化压缩</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>之所以叫”启发式”（Heuristic），是因为 MILP 本身非凸——BCD <strong>不能保证收敛到全局最优</strong>，只能收敛到局部最优（取决于初始点选择）。</p>
+<p><strong>生活化类比（搬行李进电梯）</strong>：三件大行李不可能同时扛——一次搬一件，搬完再搬下一件，反复几趟全搬完。每步变得简单，但你可能一开始选错了换乘城市，后面怎么优化都补不回来（局部最优 ≠ 全局最优）。</p>
+<p><strong>本质</strong>：<strong>用最优性换取可计算性</strong>。但 A-DOA 论文分析指出：即便拆解后，每个子问题在 Starlink 级规模（数千卫星）下仍然太慢——10 秒时隙内根本解不完，这是该范式的根本瓶颈。</p>
+<h3 id="四a-ear-路由机制既怕迟到又怕半路没电的导航">四、A-EAR 路由机制——“既怕迟到、又怕半路没电的导航”</h3>
+<p><strong>定义</strong>：A-EAR = <strong>Age-Aware Energy-Adaptive Routing</strong>（年龄感知 + 能量自适应路由）。这是 A-DOA 框架中路由模块的具体求解器。两个修饰词代表两个维度的感知能力：</p>
+<ul>
+<li><strong>Age-Aware（年龄感知）</strong>：数据会”变老”——火灾现场的卫星照片 1 秒传回有价值，10 秒后火可能烧到别处。A-EAR 优先选择能最小化 AoI 的 ISL 链路，不让数据在排队和传输中”变老”。</li>
+<li><strong>Energy-Adaptive（能量自适应）</strong>：不只看时延，还看途经卫星的剩余电量。低电量卫星即便地理位置最优也不被选中——这是一种被动的能量规避策略。</li>
+</ul>
+<p><strong>生活化类比（智能导航）</strong>：普通导航只看”哪条路最近/最快”。A-EAR 多考虑两件事——① 怕迟到（数据越快到达价值越高，绕开拥堵）、② 怕半路没电（绕开快没油的卫星节点，避免该节点耗尽导致整条链路断开）。<strong>不是找最短路径，而是找最不易出问题的路径。</strong></p>
+<h3 id="四者关系">四者关系</h3>
+<blockquote>
+<p><strong>MILP</strong> 给出问题的精确数学描述 → <strong>虚拟能量队列</strong> 把长期能量约束转化为每步可处理的惩罚项 → <strong>BCD</strong> 把这个庞大的 MILP 拆成可求解的小块 → <strong>A-EAR</strong> 是路由这一块的具体求解器。四者串成”建模—转化—分解—执行”的分层链条。</p>
+</blockquote>
+<h3 id="生活化类比用送快递串起整个框架">生活化类比：用送快递串起整个框架</h3>
+<ul>
+<li><strong>虚拟能量队列</strong> = 财务部的记账规则：“每辆车长期平均每天油费不超过 200 块，偶尔超支可以，月底算总账不超”</li>
+<li><strong>MILP</strong> = 你把”派哪辆车 + 走哪条路 + 每辆车装多少货”写成一张大表，要求总成本最低</li>
+<li><strong>BCD</strong> = 大表太大解不出来，改成先定路线再定装货量，再反过来，轮流优化</li>
+<li><strong>A-EAR</strong> = 司机拿到方案后，实际开车时自动绕过堵车路段（高延迟节点）和快没油的加油站（低电量卫星）</li>
+</ul>
+<h3 id="一句话总结-2">一句话总结</h3>
+<blockquote>
+<p>A-DOA 走的是”精确建模 + 分解近似求解”路线（<strong>优化范式</strong>），代价是时间复杂度随星座规模爆炸；本研究走的是”POMDP 建模 + GNN 拓扑编码 + MADRL 策略学习”路线（<strong>学习范式</strong>），核心优势是用训练时的一次性成本换取部署时的常数时间推理——在巨型星座的 10 秒时隙内，DRL 的前向传播比 BCD 的迭代求解快几个数量级。</p>
 </blockquote> </div> <!-- Footer --> <footer class="mt-16 pt-8 border-t border-[var(--color-border)]"> <div class="flex items-center justify-between"> <a href="/blog" class="inline-flex items-center gap-2 text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="m15 18-6-6 6-6"></path> </svg>
 返回博客
 </a> <a href="https://github.com/BaiXious" class="text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
