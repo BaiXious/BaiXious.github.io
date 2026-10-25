@@ -199,3 +199,17 @@
   background-color: var(--color-fg);
   color: var(--color-bg);
 }
+
+/* KaTeX: 行内公式跟随正文字号，长公式横向滚动而不是撑破布局 */
+.katex {
+  font-size: 1.03em;
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.prose .katex-display {
+  margin: 1.4em 0;
+}
