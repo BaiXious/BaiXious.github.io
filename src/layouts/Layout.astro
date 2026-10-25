@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { site } from '../utils/config';
 import ThemeToggle from '../components/ThemeToggle.astro';
+import Search from '../components/Search.astro';
 
 interface Props {
   title?: string;
@@ -94,8 +95,16 @@ const ogImage = new URL(image, site.url);
           
           <!-- Right Actions -->
           <div class="flex items-center gap-2">
+            <Search />
+
             <!-- Mobile Menu Button -->
-            <button class="sm:hidden p-2 text-[var(--color-fg)]" aria-label="菜单">
+            <button
+              id="mobile-menu-toggle"
+              class="sm:hidden p-2 text-[var(--color-fg)]"
+              aria-label="菜单"
+              aria-expanded="false"
+              aria-controls="mobile-menu"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="3" y1="6" x2="21" y2="6"/>
                 <line x1="3" y1="12" x2="21" y2="12"/>
@@ -106,6 +115,14 @@ const ogImage = new URL(image, site.url);
             <ThemeToggle />
           </div>
         </div>
+      </div>
+
+      <!-- Mobile Navigation -->
+      <div id="mobile-menu" class="sm:hidden hidden border-t border-[var(--color-border)]">
+        <nav class="max-w-6xl mx-auto px-6 py-3 flex flex-col gap-1">
+          <a href="/blog" class="py-2 text-sm tracking-widest uppercase text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">博客</a>
+          <a href="/about" class="py-2 text-sm tracking-widest uppercase text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">关于</a>
+        </nav>
       </div>
     </header>
     
@@ -127,5 +144,28 @@ const ogImage = new URL(image, site.url);
         </div>
       </div>
     </footer>
+
+    <script>
+      const toggle = document.getElementById('mobile-menu-toggle');
+      const menu = document.getElementById('mobile-menu');
+
+      function setMenu(open: boolean) {
+        if (!toggle || !menu) return;
+        menu.classList.toggle('hidden', !open);
+        toggle.setAttribute('aria-expanded', String(open));
+      }
+
+      toggle?.addEventListener('click', () => {
+        setMenu(menu?.classList.contains('hidden') ?? false);
+      });
+
+      menu?.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => setMenu(false));
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') setMenu(false);
+      });
+    </script>
   </body>
 </html>

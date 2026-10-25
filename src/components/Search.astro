@@ -1,4 +1,5 @@
 ---
+import PagefindSearch from 'astro-pagefind/components/Search';
 ---
 
 <button 
@@ -51,7 +52,10 @@
           </button>
         </div>
         
-        <div id="pagefind-search" data-pagefind-search></div>
+        <PagefindSearch
+          id="pagefind-search"
+          uiOptions={{ showSubResults: true, showImages: false, resetStyles: false }}
+        />
       </div>
     </div>
   </div>

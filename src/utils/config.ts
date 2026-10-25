@@ -2,7 +2,7 @@
 export const site = {
   title: '寥廓江天',
   description: '一个极简主义者的数字花园',
-  url: 'https://baixious.github.io/blog202601',
+  url: 'https://baixious.github.io',
   author: 'BaiXious',
   language: 'zh-CN',
   ogImage: '/og-image.png',
