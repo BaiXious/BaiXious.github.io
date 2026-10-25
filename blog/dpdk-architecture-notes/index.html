@@ -1,0 +1,157 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>DPDK 架构核心笔记 | 寥廓江天</title><meta name="description" content="提炼 DPDK 的内核旁路核心思想：EAL 环境抽象层、大页内存与内存池、PMD 轮询驱动、mbuf/ring/报文分类组件，以及零拷贝、NUMA 感知等性能优化与应用场景。"><link rel="canonical" href="https://baixious.github.io/blog/dpdk-architecture-notes/"><!-- Open Graph --><meta property="og:type" content="article"><meta property="og:url" content="https://baixious.github.io/blog/dpdk-architecture-notes/"><meta property="og:title" content="DPDK 架构核心笔记"><meta property="og:description" content="提炼 DPDK 的内核旁路核心思想：EAL 环境抽象层、大页内存与内存池、PMD 轮询驱动、mbuf/ring/报文分类组件，以及零拷贝、NUMA 感知等性能优化与应用场景。"><meta property="og:image" content="https://baixious.github.io/og-image.png"><meta property="og:site_name" content="寥廓江天"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://baixious.github.io/blog/dpdk-architecture-notes/"><meta property="twitter:title" content="DPDK 架构核心笔记"><meta property="twitter:description" content="提炼 DPDK 的内核旁路核心思想：EAL 环境抽象层、大页内存与内存池、PMD 轮询驱动、mbuf/ring/报文分类组件，以及零拷贝、NUMA 感知等性能优化与应用场景。"><meta property="twitter:image" content="https://baixious.github.io/og-image.png"><meta property="article:published_time" content="2026-09-13T00:00:00.000Z"><meta property="article:author" content="BaiXious"><!-- RSS --><link rel="alternate" type="application/rss+xml" title="寥廓江天" href="/rss.xml"><!-- Theme initialization script --><script>
+      (function() {
+        const theme = localStorage.getItem('blog-theme') || 'light';
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else if (theme === 'blue') {
+          document.documentElement.classList.add('blue');
+        }
+      })();
+    </script><link rel="stylesheet" href="/_astro/about.D5rCGS4c.css"><script type="module" src="/_astro/hoisted.CVWv_-f5.js"></script></head> <body class="min-h-screen"> <!-- Navigation --> <header class="fixed top-0 left-0 right-0 z-50 bg-[var(--color-bg)]/90 backdrop-blur-sm"> <div class="max-w-6xl mx-auto px-6"> <div class="flex items-center justify-between h-20"> <!-- Logo --> <a href="/" class="font-serif text-xl tracking-wide text-[var(--color-fg)] hover:opacity-70 transition-opacity"> 寥廓江天 </a> <!-- Center Navigation --> <nav class="hidden sm:flex items-center gap-8 absolute left-1/2 -translate-x-1/2"> <a href="/blog" class="text-sm tracking-widest uppercase text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
+博客
+</a> <a href="/about" class="text-sm tracking-widest uppercase text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
+关于
+</a> </nav> <!-- Right Actions --> <div class="flex items-center gap-2"> <button id="search-trigger" class="hidden sm:flex items-center gap-2 px-3 py-1.5 text-sm text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-lg transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.3-4.3"></path> </svg> <span>搜索...</span> <span class="text-xs text-[var(--color-muted)] bg-[var(--color-bg)] px-1.5 py-0.5 rounded">⌘K</span> </button> <button id="search-trigger-mobile" class="sm:hidden p-2 rounded-lg text-[var(--color-muted)] hover:text-[var(--color-fg)] hover:bg-[var(--color-card)] transition-colors" aria-label="搜索"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.3-4.3"></path> </svg> </button> <!-- Search Modal --> <div id="search-modal" class="fixed inset-0 z-[100] hidden"> <!-- Backdrop --> <div id="search-backdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div> <!-- Modal Content --> <div class="relative flex items-start justify-center pt-[10vh] px-4"> <div class="w-full max-w-2xl bg-[var(--color-bg)] rounded-xl shadow-2xl border border-[var(--color-border)] overflow-hidden"> <div id="search-container" class="p-4"> <!-- Pagefind will inject search UI here --> <div class="flex items-center justify-between mb-4"> <div class="flex items-center gap-2 text-[var(--color-muted)]"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.3-4.3"></path> </svg> <span>搜索文章...</span> </div> <button id="search-close" class="text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M18 6 6 18"></path> <path d="m6 6 12 12"></path> </svg> </button> </div> <div id="pagefind-search" class="pagefind-init" data-pagefind-ui data-bundle-path="/pagefind/" data-ui-options="{&#34;showSubResults&#34;:true,&#34;showImages&#34;:false,&#34;resetStyles&#34;:false}"></div>  </div> </div> </div> </div>   <!-- Mobile Menu Button --> <button id="mobile-menu-toggle" class="sm:hidden p-2 text-[var(--color-fg)]" aria-label="菜单" aria-expanded="false" aria-controls="mobile-menu"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <line x1="3" y1="6" x2="21" y2="6"></line> <line x1="3" y1="12" x2="21" y2="12"></line> <line x1="3" y1="18" x2="21" y2="18"></line> </svg> </button> <button id="theme-toggle" class="p-2 rounded-full text-[var(--color-muted)] hover:text-[var(--color-fg)] hover:bg-[var(--color-hover)] transition-colors" aria-label="切换主题"> <!-- Sun icon --> <svg id="icon-sun" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <circle cx="12" cy="12" r="5"></circle> <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path> </svg> <!-- Moon icon --> <svg id="icon-moon" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path> </svg> <!-- Blue icon --> <svg id="icon-blue" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <circle cx="12" cy="12" r="10"></circle> <circle cx="12" cy="12" r="4" fill="currentColor"></circle> </svg> </button>  </div> </div> </div> <!-- Mobile Navigation --> <div id="mobile-menu" class="sm:hidden hidden border-t border-[var(--color-border)]"> <nav class="max-w-6xl mx-auto px-6 py-3 flex flex-col gap-1"> <a href="/blog" class="py-2 text-sm tracking-widest uppercase text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">博客</a> <a href="/about" class="py-2 text-sm tracking-widest uppercase text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">关于</a> </nav> </div> </header> <!-- Main Content --> <main class="pt-20">  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12"> <!-- Back Button --> <a href="/blog" class="inline-flex items-center gap-2 text-[var(--color-muted)] hover:text-[var(--color-fg)] mb-8 transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="m15 18-6-6 6-6"></path> </svg>
+返回博客
+</a> <!-- Header --> <header class="mb-12">  <div class="flex flex-wrap items-center gap-3 mb-4 text-sm text-[var(--color-muted)]"> <time datetime="2026-09-13T00:00:00.000Z"> 2026年9月13日 </time>   </div> <h1 class="font-serif text-3xl sm:text-4xl font-bold text-[var(--color-fg)] mb-4"> DPDK 架构核心笔记 </h1> <p class="text-lg text-[var(--color-muted)]">提炼 DPDK 的内核旁路核心思想：EAL 环境抽象层、大页内存与内存池、PMD 轮询驱动、mbuf/ring/报文分类组件，以及零拷贝、NUMA 感知等性能优化与应用场景。</p> <div class="flex flex-wrap gap-2 mt-6"> <a href="/tags/DPDK" class="text-sm px-3 py-1 text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors">
+#DPDK </a><a href="/tags/网络" class="text-sm px-3 py-1 text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors">
+#网络 </a><a href="/tags/高性能计算" class="text-sm px-3 py-1 text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors">
+#高性能计算 </a> </div> </header> <!-- Content --> <div class="prose-custom prose-lg max-w-none"> <p>随着网络带宽不断攀升（10G、25G 乃至 100G 网卡已经普及），传统的”数据包进内核 → 协议栈处理 → 拷贝到用户态”的路径成为了性能瓶颈：中断开销、上下文切换、内存拷贝，每一项都在吞噬本可用于处理业务的 CPU 时间。<strong>DPDK（Data Plane Development Kit）</strong> 就是为解决这一问题而生的开源数据平面开发工具包——它提供一组高度优化的库和驱动程序，帮助开发者绕过内核，在用户空间构建高性能网络应用。</p>
+<blockquote>
+<p><strong>一句话概括 DPDK 的核心思想：绕过操作系统内核，让数据包从网卡直接到达用户空间的应用程序。</strong></p>
+</blockquote>
+<h2 id="三层核心架构">三层核心架构</h2>
+<p>DPDK 的架构可以拆成三个层次，自下而上分别解决”硬件怎么访问”、“内存怎么分配”、“包怎么收发”三个问题：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>层次</th><th>组件</th><th>职责</th></tr></thead><tbody><tr><td>环境抽象层</td><td><strong>EAL</strong></td><td>DPDK 的基石，提供统一的硬件抽象接口：内存管理、CPU 核心绑定、PCI 设备访问等，屏蔽底层硬件与操作系统的差异</td></tr><tr><td>内存管理</td><td><strong>大页内存 + 内存池</strong></td><td>预分配大页内存减少 TLB 缺失；内存池机制避免运行时动态分配的开销，保证确定性的延迟</td></tr><tr><td>驱动层</td><td><strong>PMD（轮询模式驱动）</strong></td><td>用主动轮询替代中断机制，彻底消除中断处理开销，实现接近线速的数据包处理</td></tr></tbody></table>
+<h3 id="eal环境抽象层">EAL：环境抽象层</h3>
+<p>EAL（Environment Abstraction Layer）是所有 DPDK 应用的地基。它向上层提供一组统一的接口，负责：</p>
+<ul>
+<li><strong>内存管理</strong>：初始化并管理大页内存；</li>
+<li><strong>CPU 核心绑定</strong>：把线程绑定到指定核心上运行；</li>
+<li><strong>PCI 设备访问</strong>：枚举并接管网卡设备。</li>
+</ul>
+<p>有了 EAL，同一份 DPDK 应用代码可以在不同硬件平台和操作系统上运行，而不必关心底层差异。</p>
+<h3 id="内存管理大页--内存池">内存管理：大页 + 内存池</h3>
+<p>内存访问是高速包处理中最容易被忽视的瓶颈。DPDK 从两方面下手：</p>
+<ul>
+<li><strong>大页内存（Hugepages）</strong>：使用 2MB 甚至 1GB 的大页，大幅减少页表项数量，从而<strong>减少 TLB（Translation Lookaside Buffer）缺失</strong>，降低地址翻译开销；</li>
+<li><strong>内存池（Mempool）</strong>：启动时一次性预分配好固定大小的缓冲区池，运行时从池中取用、用后归还，<strong>避免了运行时动态内存分配的不确定性开销</strong>，保证延迟可预期。</li>
+</ul>
+<h3 id="pmd轮询模式驱动">PMD：轮询模式驱动</h3>
+<p>传统内核驱动采用”中断 + 通知”模型：每个包到达都触发一次硬件中断，中断处理本身的开销在高包速率下会压垮 CPU。PMD（Poll Mode Driver）反其道而行之——<strong>指定核心持续主动轮询网卡队列</strong>，包到了立刻处理，没有包就空转等待。</p>
+<p>这样做的代价是轮询核心被 100% 占用，但换来的是：</p>
+<ul>
+<li>彻底消除中断处理和中断上下文切换的开销；</li>
+<li>收包路径完全可控、延迟确定；</li>
+<li>配合 CPU 绑核，处理能力可以逼近网卡线速。</li>
+</ul>
+<h2 id="核心组件">核心组件</h2>
+<p>在三层架构之上，DPDK 提供了几个日常开发中最常打交道的库：</p>
+<h3 id="mbuf-库">mbuf 库</h3>
+<p><strong>mbuf 是 DPDK 中最核心的数据结构</strong>，每个网络数据包都被封装在一个 mbuf 中。它不仅携带数据包内容本身，还附带元数据信息，例如：</p>
+<ul>
+<li>时间戳</li>
+<li>VLAN 标签</li>
+<li>RSS 哈希值</li>
+</ul>
+<p>mbuf 从内存池中分配，收包、处理、转发、释放的全生命周期都在用户空间完成。</p>
+<h3 id="ring-库">ring 库</h3>
+<p><strong>ring 是无锁的环形队列</strong>，支持多生产者、多消费者并发访问。它通过无锁（lock-free）算法避免了传统互斥锁的竞争开销，是 DPDK 应用中核心间传递数据包的标准手段——比如一个核心负责收包，另一个核心负责处理，两者之间就用 ring 衔接。</p>
+<h3 id="报文分类库">报文分类库</h3>
+<p>对数据包进行快速分类匹配是路由器、防火墙等设备的核心需求。DPDK 内置了多种分类算法：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>算法</th><th>适用场景</th></tr></thead><tbody><tr><td><strong>EM（精确匹配）</strong></td><td>五元组完全匹配的流表查找</td></tr><tr><td><strong>LPM（最长前缀匹配）</strong></td><td>路由表查找</td></tr><tr><td><strong>ACL（访问控制列表）</strong></td><td>防火墙规则匹配、访问控制</td></tr></tbody></table>
+<h2 id="工作原理与关键技术">工作原理与关键技术</h2>
+<h3 id="用户空间网络栈">用户空间网络栈</h3>
+<p>把整个收发包路径搬到用户空间后，DPDK 应用获得三大优势：</p>
+<ol>
+<li><strong>零拷贝</strong>：数据包由网卡通过 <strong>DMA 直接写入用户空间内存</strong>，不再经过内核缓冲区的层层拷贝；</li>
+<li><strong>无上下文切换</strong>：数据包处理全程处于用户态，<strong>消除了内核态/用户态之间的切换开销</strong>；</li>
+<li><strong>CPU 亲和性</strong>：通过绑核把特定核心专用于特定网络处理任务，避免任务在核心间迁移导致的缓存失效。</li>
+</ol>
+<h3 id="numa-感知">NUMA 感知</h3>
+<p>在多路服务器上，内存被划分到不同的 NUMA 节点，跨节点访问内存的延迟显著高于本地节点。DPDK 提供 <strong>NUMA 感知的内存分配</strong>：让内存分配在离使用它的 CPU 最近的节点上，尽可能减少跨节点访问延迟。</p>
+<h3 id="向量化优化">向量化优化</h3>
+<p>现代 CPU 提供了 SIMD（单指令多数据）指令集（如 SSE、AVX），DPDK 大量利用这些指令<strong>同时处理多个数据包</strong>，进一步提高单核吞吐能力。</p>
+<h2 id="性能优化技巧">性能优化技巧</h2>
+<p>在实际开发中，DPDK 社区总结了几个行之有效的优化手段：</p>
+<ul>
+<li><strong>CPU 核心绑定</strong>：把控制平面与数据平面分离，数据平面的核心专心收发包，不被其他任务干扰；</li>
+<li><strong>内存对齐</strong>：按缓存行（cache line）对齐数据结构，<strong>避免伪共享（false sharing）</strong>——多个核心因各自修改同一缓存行中的不同变量而互相拖慢；</li>
+<li><strong>批处理</strong>：DPDK 的多数 API 都支持批量操作（如一次收发多个包），通过<strong>分摊函数调用开销</strong>来提升整体效率。</li>
+</ul>
+<h2 id="应用场景">应用场景</h2>
+<p>DPDK 已经是高性能网络领域的基础设施，典型的应用场景包括：</p>
+<ul>
+<li><strong>SDN（软件定义网络）</strong>：SDN 控制器、虚拟交换机（如 OVS-DPDK）的数据转发加速；</li>
+<li><strong>NFV（网络功能虚拟化）</strong>：虚拟化防火墙、负载均衡器等网络功能组件；</li>
+<li><strong>5G 核心网</strong>：用户面（UPF）的大流量数据包处理；</li>
+<li><strong>云与边缘计算</strong>：云网络、边缘节点的网络 I/O 性能优化。</li>
+</ul>
+<h2 id="学习路径">学习路径</h2>
+<p>如果想系统学习 DPDK，文章给出的路径是：</p>
+<p><strong>入门阶段：</strong></p>
+<ol>
+<li>搭建 DPDK 开发环境；</li>
+<li>运行官方示例程序 <code>helloworld</code> 和 <code>l2fwd</code>，跑通最简单的收发包流程；</li>
+<li>熟悉核心 API（EAL 初始化、mbuf、ring 等）；</li>
+<li>使用 <code>testpmd</code> 工具做性能基准测试。</li>
+</ol>
+<p><strong>进阶方向：</strong></p>
+<ul>
+<li>深入理解 DPDK 内存模型；</li>
+<li>自定义 PMD 驱动开发；</li>
+<li>硬件相关优化技巧；</li>
+<li>针对具体场景的最佳实践。</li>
+</ul>
+<h2 id="一句话总结">一句话总结</h2>
+<p>DPDK 用”内核旁路 + 用户空间轮询驱动 + 大页内存池 + 无锁数据结构”的组合拳，把数据包处理从操作系统手中接管过来，实现了接近线速的高性能网络 I/O。随着云原生支持和硬件卸载能力的不断增强，它仍是现代高性能网络应用开发中值得掌握的关键技术。</p> </div> <!-- Footer --> <footer class="mt-16 pt-8 border-t border-[var(--color-border)]"> <div class="flex items-center justify-between"> <a href="/blog" class="inline-flex items-center gap-2 text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="m15 18-6-6 6-6"></path> </svg>
+返回博客
+</a> <a href="https://github.com/BaiXious" class="text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
+在 GitHub 上编辑
+</a> </div> </footer> </article>   </main> <!-- Footer --> <footer class="py-12 mt-20"> <div class="max-w-6xl mx-auto px-6"> <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[var(--color-muted)]"> <p>© 2026 BaiXious</p> <div class="flex items-center gap-6"> <a href="/rss.xml" class="hover:text-[var(--color-fg)] transition-colors">RSS</a> <a href="https://github.com/BaiXious" class="hover:text-[var(--color-fg)] transition-colors">GitHub</a> </div> </div> </div> </footer>  </body> </html>

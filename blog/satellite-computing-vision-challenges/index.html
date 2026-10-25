@@ -1,0 +1,314 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>卫星计算：愿景与挑战 —— 北邮天算星座团队这篇 IoT-J 论文读后 | 寥廓江天</title><meta name="description" content="解读王尚广、李晴发表于 IEEE IoT Journal 的《Satellite Computing: Vision and Challenges》：把算力搬上卫星的三个动机、巨型星座带来的三类本质约束、四条值得做的研究方向，以及天算星座在真实卫星上跑出的实验数据。"><link rel="canonical" href="https://baixious.github.io/blog/satellite-computing-vision-challenges/"><!-- Open Graph --><meta property="og:type" content="article"><meta property="og:url" content="https://baixious.github.io/blog/satellite-computing-vision-challenges/"><meta property="og:title" content="卫星计算：愿景与挑战 —— 北邮天算星座团队这篇 IoT-J 论文读后"><meta property="og:description" content="解读王尚广、李晴发表于 IEEE IoT Journal 的《Satellite Computing: Vision and Challenges》：把算力搬上卫星的三个动机、巨型星座带来的三类本质约束、四条值得做的研究方向，以及天算星座在真实卫星上跑出的实验数据。"><meta property="og:image" content="https://baixious.github.io/og-image.png"><meta property="og:site_name" content="寥廓江天"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://baixious.github.io/blog/satellite-computing-vision-challenges/"><meta property="twitter:title" content="卫星计算：愿景与挑战 —— 北邮天算星座团队这篇 IoT-J 论文读后"><meta property="twitter:description" content="解读王尚广、李晴发表于 IEEE IoT Journal 的《Satellite Computing: Vision and Challenges》：把算力搬上卫星的三个动机、巨型星座带来的三类本质约束、四条值得做的研究方向，以及天算星座在真实卫星上跑出的实验数据。"><meta property="twitter:image" content="https://baixious.github.io/og-image.png"><meta property="article:published_time" content="2026-10-25T00:00:00.000Z"><meta property="article:author" content="BaiXious"><!-- RSS --><link rel="alternate" type="application/rss+xml" title="寥廓江天" href="/rss.xml"><!-- Theme initialization script --><script>
+      (function() {
+        const theme = localStorage.getItem('blog-theme') || 'light';
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else if (theme === 'blue') {
+          document.documentElement.classList.add('blue');
+        }
+      })();
+    </script><link rel="stylesheet" href="/_astro/about.D5rCGS4c.css"><script type="module" src="/_astro/hoisted.CVWv_-f5.js"></script></head> <body class="min-h-screen"> <!-- Navigation --> <header class="fixed top-0 left-0 right-0 z-50 bg-[var(--color-bg)]/90 backdrop-blur-sm"> <div class="max-w-6xl mx-auto px-6"> <div class="flex items-center justify-between h-20"> <!-- Logo --> <a href="/" class="font-serif text-xl tracking-wide text-[var(--color-fg)] hover:opacity-70 transition-opacity"> 寥廓江天 </a> <!-- Center Navigation --> <nav class="hidden sm:flex items-center gap-8 absolute left-1/2 -translate-x-1/2"> <a href="/blog" class="text-sm tracking-widest uppercase text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
+博客
+</a> <a href="/about" class="text-sm tracking-widest uppercase text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
+关于
+</a> </nav> <!-- Right Actions --> <div class="flex items-center gap-2"> <button id="search-trigger" class="hidden sm:flex items-center gap-2 px-3 py-1.5 text-sm text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-lg transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.3-4.3"></path> </svg> <span>搜索...</span> <span class="text-xs text-[var(--color-muted)] bg-[var(--color-bg)] px-1.5 py-0.5 rounded">⌘K</span> </button> <button id="search-trigger-mobile" class="sm:hidden p-2 rounded-lg text-[var(--color-muted)] hover:text-[var(--color-fg)] hover:bg-[var(--color-card)] transition-colors" aria-label="搜索"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.3-4.3"></path> </svg> </button> <!-- Search Modal --> <div id="search-modal" class="fixed inset-0 z-[100] hidden"> <!-- Backdrop --> <div id="search-backdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div> <!-- Modal Content --> <div class="relative flex items-start justify-center pt-[10vh] px-4"> <div class="w-full max-w-2xl bg-[var(--color-bg)] rounded-xl shadow-2xl border border-[var(--color-border)] overflow-hidden"> <div id="search-container" class="p-4"> <!-- Pagefind will inject search UI here --> <div class="flex items-center justify-between mb-4"> <div class="flex items-center gap-2 text-[var(--color-muted)]"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.3-4.3"></path> </svg> <span>搜索文章...</span> </div> <button id="search-close" class="text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M18 6 6 18"></path> <path d="m6 6 12 12"></path> </svg> </button> </div> <div id="pagefind-search" class="pagefind-init" data-pagefind-ui data-bundle-path="/pagefind/" data-ui-options="{&#34;showSubResults&#34;:true,&#34;showImages&#34;:false,&#34;resetStyles&#34;:false}"></div>  </div> </div> </div> </div>   <!-- Mobile Menu Button --> <button id="mobile-menu-toggle" class="sm:hidden p-2 text-[var(--color-fg)]" aria-label="菜单" aria-expanded="false" aria-controls="mobile-menu"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <line x1="3" y1="6" x2="21" y2="6"></line> <line x1="3" y1="12" x2="21" y2="12"></line> <line x1="3" y1="18" x2="21" y2="18"></line> </svg> </button> <button id="theme-toggle" class="p-2 rounded-full text-[var(--color-muted)] hover:text-[var(--color-fg)] hover:bg-[var(--color-hover)] transition-colors" aria-label="切换主题"> <!-- Sun icon --> <svg id="icon-sun" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <circle cx="12" cy="12" r="5"></circle> <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path> </svg> <!-- Moon icon --> <svg id="icon-moon" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path> </svg> <!-- Blue icon --> <svg id="icon-blue" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <circle cx="12" cy="12" r="10"></circle> <circle cx="12" cy="12" r="4" fill="currentColor"></circle> </svg> </button>  </div> </div> </div> <!-- Mobile Navigation --> <div id="mobile-menu" class="sm:hidden hidden border-t border-[var(--color-border)]"> <nav class="max-w-6xl mx-auto px-6 py-3 flex flex-col gap-1"> <a href="/blog" class="py-2 text-sm tracking-widest uppercase text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">博客</a> <a href="/about" class="py-2 text-sm tracking-widest uppercase text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">关于</a> </nav> </div> </header> <!-- Main Content --> <main class="pt-20">  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12"> <!-- Back Button --> <a href="/blog" class="inline-flex items-center gap-2 text-[var(--color-muted)] hover:text-[var(--color-fg)] mb-8 transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="m15 18-6-6 6-6"></path> </svg>
+返回博客
+</a> <!-- Header --> <header class="mb-12"> <div class="aspect-video rounded-xl overflow-hidden mb-8"> <img src="/cover_images/satellite.png" alt="卫星计算：愿景与挑战 —— 北邮天算星座团队这篇 IoT-J 论文读后" class="w-full h-full object-cover"> </div> <div class="flex flex-wrap items-center gap-3 mb-4 text-sm text-[var(--color-muted)]"> <time datetime="2026-10-25T00:00:00.000Z"> 2026年10月25日 </time>   </div> <h1 class="font-serif text-3xl sm:text-4xl font-bold text-[var(--color-fg)] mb-4"> 卫星计算：愿景与挑战 —— 北邮天算星座团队这篇 IoT-J 论文读后 </h1> <p class="text-lg text-[var(--color-muted)]">解读王尚广、李晴发表于 IEEE IoT Journal 的《Satellite Computing: Vision and Challenges》：把算力搬上卫星的三个动机、巨型星座带来的三类本质约束、四条值得做的研究方向，以及天算星座在真实卫星上跑出的实验数据。</p> <div class="flex flex-wrap gap-2 mt-6"> <a href="/tags/卫星计算" class="text-sm px-3 py-1 text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors">
+#卫星计算 </a><a href="/tags/低轨卫星边缘计算" class="text-sm px-3 py-1 text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors">
+#低轨卫星边缘计算 </a><a href="/tags/论文解读" class="text-sm px-3 py-1 text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors">
+#论文解读 </a><a href="/tags/空天地一体化" class="text-sm px-3 py-1 text-[var(--color-muted)] bg-[var(--color-card)] hover:bg-[var(--color-border)] rounded-full transition-colors">
+#空天地一体化 </a> </div> </header> <!-- Content --> <div class="prose-custom prose-lg max-w-none"> <h2 id="这是一篇什么性质的论文">这是一篇什么性质的论文</h2>
+<p>先把坐标定清楚：</p>
+<ul>
+<li><strong>标题</strong>：Satellite Computing: Vision and Challenges</li>
+<li><strong>作者</strong>：王尚广（北京邮电大学 网络与交换技术全国重点实验室）、李晴（北京大学 计算机学院，通讯作者）</li>
+<li><strong>发表</strong>：IEEE Internet of Things Journal, vol. 10, no. 24, pp. 22514–22529, 2023，DOI <code>10.1109/JIOT.2023.3303346</code></li>
+</ul>
+<p>它<strong>不是</strong>一篇提出新算法、给出新收敛性证明的技术论文，而是一篇 <strong>position paper（立场/愿景论文）</strong>：先讲清楚”为什么现在必须研究卫星计算”，再用一份细致的文献综述说明”现有工作缺什么”，然后给出四条研究路线图，最后用自家在轨的<strong>天算星座</strong>证明”这件事真的能做成”。</p>
+<p>读这类文章的正确方式，不是找它的创新点，而是找<strong>它划定的问题边界</strong>——哪些问题它认为是真问题、哪些它认为已经解决了、哪些它刻意绕开了。下面按这个思路拆。</p>
+<h2 id="一为什么要把算力搬上卫星三个必须正视的动机">一、为什么要把算力搬上卫星：三个必须正视的动机</h2>
+<p>论文开篇给的宏观背景是：低轨（LEO）巨型星座正在铺开，截至 2023 年 7 月，SpaceX 已发射 4700 余颗星链卫星，OneWeb 620 颗；同时 Google、Microsoft、AWS 都在与卫星公司结盟，想把公有云搬到轨道上——巨型星座被描述为”全球用户的又一种混合云选项”。</p>
+<p>但真正支撑”卫星计算”这个概念成立的，是它对传统架构三个断点的修补：</p>
+<p><strong>动机一：弯管（bent-pipe）架构在星座规模下彻底失效。</strong>
+传统卫星是”弯管”：地面站发人工指令上去，卫星把原始数据原样吐回来，人是回路中的一环（human-in-the-loop）。单星、几十颗星时这没问题；当成千上万颗星在轨时，人工排班式的测运控根本无法收敛。卫星具备计算能力后，才有可能实现<strong>在轨自主运行</strong>，降低对地面段的依赖。</p>
+<p><strong>动机二：原始数据的增长速度远超下行带宽。</strong>
+星座越大，空间原生数据（遥感影像等）增长越猛，而星地链路带宽是硬约束——根本来不及下传。让卫星在轨先处理、只把”感兴趣的特征”传回地面，是唯一可行的出路，同时也降低了地面基础设施成本。</p>
+<p><strong>动机三：星上平台升级后，星座本身就是数据处理基础设施。</strong>
+当成像、算力、存储都足够时，星座不再只是”管道”，而是一张遍布全球的分布式数据处理网络，可以在太空中提供今天地面公有云那样的服务。</p>
+<p>一句话总结这三个动机：<strong>不是”卫星上顺便能算”，而是”不算就撑不住”</strong>。</p>
+<h2 id="二难点在哪三类不可回避的物理约束">二、难点在哪：三类不可回避的物理约束</h2>
+<p>论文反复强调，卫星计算<strong>在本质上不同于地面云计算与边缘计算</strong>，原因不是工程实现粗糙，而是三条物理事实：</p>
+<ol>
+<li><strong>核心基础设施在移动</strong>。星座由成千上万颗高速运动的卫星组成，550 km 高度的卫星必须保持约 <strong>27,000 km/h</strong> 才能维持轨道。拓扑分钟级变化，链路上的”服务器”随时会飞走。</li>
+<li><strong>系统功率预算被大幅压缩</strong>。为了压低制造与发射成本，星上重量、体积、能源都被压缩到极限，计算部件是在”极度缺电”的条件下工作的。</li>
+<li><strong>空间环境恶劣</strong>。深真空、辐照、强振动、更宽的温度范围，都会直接侵蚀商用器件的可靠性。</li>
+</ol>
+<p>这三条决定了两件事：地面那套”假设带宽充裕、节点不动、供电稳定”的算法与系统设计，几乎都要重做；而且<strong>很多在仿真里成立的结论，上了真星就未必成立</strong>。</p>
+<h2 id="三星座现状一份-2023-年-7-月的快照">三、星座现状：一份 2023 年 7 月的快照</h2>
+<p>论文用 NewSpace Index 的数据列了发射量前 20 的星座（表 I）。摘录前几名：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>排名</th><th>组织（星座）</th><th>已发射 / 计划</th><th>首发年份</th><th>形态</th><th>应用</th></tr></thead><tbody><tr><td>1</td><td>SpaceX（Starlink Gen1）</td><td>4700 / 4408</td><td>2018</td><td>小卫星</td><td>互联网</td></tr><tr><td>2</td><td>OneWeb</td><td>620 / 648</td><td>2019</td><td>小卫星</td><td>互联网</td></tr><tr><td>3</td><td>Planet（Flock/Dove）</td><td>555 / 150</td><td>2013</td><td>CubeSat</td><td>对地观测</td></tr><tr><td>4</td><td>Swarm Technologies</td><td>189 / 150</td><td>2018</td><td>CubeSat</td><td>IoT/M2M</td></tr><tr><td>5</td><td>Spire（Lemur）</td><td>166 / 150</td><td>2013</td><td>CubeSat</td><td>气象、AIS、ADS-B</td></tr><tr><td>6</td><td>长光（吉林一号）</td><td>89 / 300</td><td>2015</td><td>卫星</td><td>对地观测</td></tr><tr><td>7</td><td>Aireon</td><td>75 / 75</td><td>2017</td><td>搭载</td><td>ADS-B</td></tr><tr><td>8</td><td>Iridium（NEXT）</td><td>75 / 75</td><td>2017</td><td>卫星</td><td>互联网、IoT/M2M</td></tr></tbody></table>
+<p>作者从这张表里读出四条结论，值得记住：</p>
+<ul>
+<li><strong>集中度极高</strong>：大星座被少数几个组织垄断，且差距还在拉大；</li>
+<li><strong>20 个星座里 19 个首发于 2010 年之后</strong>——这就是所谓的 “NewSpace” 时代；</li>
+<li><strong>小卫星（&#x3C;500 kg）主导</strong>低轨巨型星座，这也是”功率预算紧张”的直接来源；</li>
+<li><strong>应用早已不止宽带接入</strong>：对地观测、IoT/M2M、AIS（船舶识别）、ADS-B（航空监视）、GNSS/PNT 都已是成熟场景。文中还给了几个佐证：星链用户已超 150 万；BlackSky、Planet 用星座为投资机构提供观测情报；铱星用 66 颗 LEO 星提供全球物联网服务。</li>
+</ul>
+<p>另一个容易被忽略的数据：被收录的星座中，<strong>只有约 4% 已完成部署、8% 正在部署</strong>。也就是说，这篇论文写作时，真正的”巨型星座时代”才刚刚开始。</p>
+<h2 id="四文献综述三条线以及每条线共同的病">四、文献综述：三条线，以及每条线共同的病</h2>
+<p>论文把已有工作分成<strong>网络、计算、其他</strong>三类。这里只抓每类的骨架和作者给出的批判——批判往往比综述本身更有价值。</p>
+<h3 id="41-卫星网络">4.1 卫星网络</h3>
+<p>按协议栈层次展开：</p>
+<ul>
+<li><strong>物理层</strong>：关注星间链路（ISL）到底能带来多少时延、吞吐、可靠性收益；有工作设计了包级仿真器与名为 <strong>+Grid</strong> 的拓扑（用重复 motif 保证连接关系随时间稳定）；也有工作用伽利略卫星的 ISL 实测数据评估链路精度，或用 Ku 波段衰减反演降雨量。</li>
+<li><strong>网络层</strong>：核心是路由。有基于多路由平面的流量调度、LEO 与地面分布式基站混合的传输架构、可扩展的两层路由（时延有界 + 时延感知）、用地面中继替代 ISL 以降接入时延，以及在链路故障下保生存性的路由。还有一条安全线：<strong>风险规避的轻量级路由</strong>，代价是链路开销上升。</li>
+<li><strong>传输层</strong>：拥塞控制是主战场。有基于数据报路由的分布式概率拥塞控制、基于功率控制的多目标优化、TCP 在商用卫星网上的实测（PEP 能显著提升吞吐），也有按业务类型分类的分布式拥塞控制路由。</li>
+<li><strong>星载核心网</strong>：把移动核心网功能往天上搬，以规避地面站建设运维成本、以及地质灾害带来的不可用。这一条是作者自己的主线之一。</li>
+</ul>
+<p><strong>作者对这条线的四点批评（很关键）</strong>：</p>
+<ol>
+<li>对卫星<strong>移动性建模不足</strong>，有的工作干脆把路由、寻址、拥塞控制当成静态问题处理，与真实空间场景脱节；</li>
+<li><strong>缺乏真实完整的卫星数据集</strong>，靠仿真环境和人工制造的数据得出的结论，常常偏离实际；</li>
+<li>各种架构各自在不同仿真器里验证，<strong>没有真实卫星平台支撑结论</strong>；</li>
+<li>缺少一套完整的协议体系来支撑<strong>天、空、地、海</strong>网络段的融合。</li>
+</ol>
+<h3 id="42-卫星计算">4.2 卫星计算</h3>
+<p>主线是<strong>卫星边缘计算</strong>：把计算任务卸载到星上或星地两级，关注卸载决策、资源分配、服务放置与 VNF 部署。方法上大量使用势博弈、拉格朗日对偶、二元变量松弛把非凸问题线性化，也有作者自己的两条工作——用李雅普诺夫优化 + 吉布斯采样做在线服务放置以提升服务覆盖率；用在线凸优化调度”感知-计算-通信”以降低对地观测任务的电池放电深度。</p>
+<p>第二条线是<strong>太空 AI</strong>：主流是遥感图像的目标检测与处理。有工作构建了 11,268 张图、18 个类别的星载数据集并给出 10 种算法 70 种配置的基线；有工作研究 CNN 与图像压缩方法对推理时延和内存的影响；也有工作用强化学习做自适应分辨率检测、在 CubeSat 上用轻量 CNN 做下行图像筛选。</p>
+<p><strong>作者对这条线的四点批评</strong>：研究高度集中在卸载/资源分配/服务放置，且<strong>基本停留在仿真</strong>，常把拓扑按时间片固定，掩盖了真实问题；缺少真实卫星平台验证，尤其是 AI 算法；星上功率极端受限，需要新的能源管理、计算机体系结构与硬件专用化；星座应被视为<strong>一套移动的分布式计算基础设施</strong>，需要集群编排与资源管理——而这件事几乎还没人做。</p>
+<h3 id="43-其他硬件">4.3 其他硬件</h3>
+<p>天线、低功耗 GPS 接收机（用小卫星的相对运动与多普勒导致首次定位时间变长，冷启动极其耗电）、FPGA 加速器，以及欧空局 CloudScout 用深度学习缓解下行压力、降低运营成本的演示。结论很直白：<strong>新需求要求新架构与新硬件，而验证新硬件又要求有真实的在轨实验平台</strong>。</p>
+<h2 id="五四条研究方向论文的愿景主体">五、四条研究方向：论文的”愿景”主体</h2>
+<p>这是全文最像”路线图”的部分，也是选题时最该细读的地方。</p>
+<h3 id="51-网络把-5g6g-核心网搬上去">5.1 网络：把 5G/6G 核心网搬上去</h3>
+<p>作者的核心主张是<strong>星载核心网</strong>：LEO 卫星本身是通用硬件 + 定制软件，一旦把核心网与接入网、数据网互联，就能提供实时可靠的定制服务；同时，卫星数量增长极快，也需要一套灵活统一的在轨管理方式，轻量核心网正好能承担星上资源调度与统一管理。</p>
+<p>具体拆成四个子方向：</p>
+<ul>
+<li><strong>卫星通信</strong>：路径损耗（远距离 + 干扰下 beamforming 不够用）、频谱稀缺（认知无线电、毫米波）、时延（传输/传播/排队/处理四段，拓扑高动态加剧不稳定）、移动性管理（覆盖区不固定导致频繁切换）、计算卸载的动态方案，以及安全（开放环境 + 高动态拓扑下的星间窃听、分布式密钥计算与管理、认证与安全路由的重设计）。</li>
+<li><strong>网络虚拟化</strong>：用 SDN 的控制面/数据面分离让卸载、路由、资源分配彼此解耦；用 NFV 摆脱对特定供应商专用接口的依赖；以及卫星网络里的<strong>虚拟网络嵌入</strong>问题。</li>
+<li><strong>轻量级核心网</strong>：地面核心网太大太复杂，直接搬上去不现实，必须裁剪。文中给出轻量核心网的架构参考模型，落到具体功能就是 <strong>AMF / SMF / UPF</strong> 三类，让星座具备接入管理、移动性管理、会话管理的基础能力。作者自己列了三个尚未回答的问题：<strong>哪些网元该上星？如何简化？上星之后对星座架构有什么影响？</strong></li>
+<li><strong>其他</strong>：硬件平台与分布式系统设计、波束成形 + 分布式控制抑制干扰、智能反射面，以及网络时空信息（流量、位置、星历）与目标定位服务的提供。</li>
+</ul>
+<h3 id="52-太空-ai从单星小模型转向联邦--星地协同">5.2 太空 AI：从”单星小模型”转向”联邦 + 星地协同”</h3>
+<p>先看它的动机：遥感数据传回地面分析有两个硬伤——<strong>上下行带宽有限</strong>（文中提到上行只有几十到几百 kb/s 量级），以及传输链路脆弱、可能中断导致数据丢失。</p>
+<p>再看作答，逻辑很干净：单星算力有限，高分辨率影像用一个小模型处理不了；把所有影像传回地面又不可行；于是分布式学习是方向。但传统的分布式学习在 LEO 上也不成立——<strong>当前星间通信尚不可用</strong>，即便可用，内存与功率也会立刻成为瓶颈。所以落到<strong>联邦学习（FL）</strong>：数据留在各自卫星上处理，既保护隐私，又避免大规模星间同步；另一条路是<strong>地面部署大模型、星上部署浅模型</strong>，由地面辅助星上。</p>
+<p>作者还提了一个很”系统”的问题：FL 在恶劣空间环境下同样会出现错误或意外行为，因此需要一个<strong>系统化的测试工具</strong>，能自动生成测试用例（模拟陨石、光照、拍摄角度等真实环境变化）去重训模型、提升鲁棒性。这一点我认为是全文最容易被低估的研究机会。</p>
+<h3 id="53-卫星与智慧城市数据融合与数据增强">5.3 卫星与智慧城市：数据融合与数据增强</h3>
+<p>遥感数据用于城市计算有两个短板：<strong>单一视角/模态</strong>无法刻画整座城市；<strong>时空分辨率低</strong>，难以支撑实时场景（交通感知与预测）。</p>
+<p>对应两条路线：</p>
+<ul>
+<li><strong>星地数据融合</strong>：地面数据（传感器、GPS）覆盖不全，卫星数据可以补足。难点在于质量（误差、缺失、噪声）与多模态。清洗可以靠星地互验、主动学习、众包纠错；融合按顺序分<strong>前融合</strong>（编码后拼接再下游）与<strong>后融合</strong>（各模态独立推理再融合结果）。</li>
+<li><strong>遥感数据增强</strong>：传统超分方法需要成对的低/高分辨率样本，在城市场景不现实；因此可以把增强转成<strong>生成问题</strong>，用 GAN 一类模型补全，并把先验知识（路网拓扑、地理学第一定律）约束进生成过程；也可以借用其他域的数据（例如用街景照片里的道路线特征去补低分辨率影像）。</li>
+</ul>
+<h3 id="54-卫星操作系统被忽视但可能是最硬的一环">5.4 卫星操作系统：被忽视但可能是最硬的一环</h3>
+<p>这一节的价值在于，它把”星载 OS”从工程细节提升成了研究命题。背景是器件正在<strong>通用化</strong>：星上不再只能用抗辐照的 CPU/DRAM/FPGA，商用器件的引入让卫星 OS 第一次有了”性能”这个维度——而过去几十年，卫星 OS 只关心稳定性与实时性，基本结构没变过。</p>
+<p>论文点评了三个产业界的代表：</p>
+<ul>
+<li><strong>Lockheed Martin SmartSat</strong>：CubeSat 平台，以应用商店为中心，支持从地面上传软件更新能力；但没有考虑用商用器件组装星载计算机，也没有给出容错、性能提升与资源调度方案。</li>
+<li><strong>HPE Spaceborne Computer</strong>：用商用器件 + 服务器 OS，考虑了性能与容错；但不是为卫星环境专门设计，容错代价过高，离真正部署很远。</li>
+<li><strong>SpaceX 星链</strong>：裁剪版 Linux，兼顾生态兼容、性能与实时性；但依赖抗辐照 CPU、不用商用器件，灵活性受限。</li>
+</ul>
+<p>由此推出未来卫星 OS 的四个必备特征：</p>
+<ol>
+<li><strong>兼顾性能与 Linux 生态兼容</strong>，让地面软件能平滑迁移上星；</li>
+<li>商用器件不再提供硬件级可靠性保证，因此<strong>必须在 OS 层面提供容错机制</strong>；</li>
+<li>提供开发—测试—部署—动态调整的全套机制，解决传统卫星”部署即固化、星与星之间不可迁移”的高成本问题；</li>
+<li>多任务共存（AI 推理、视频传输、资源监控）时，要保证<strong>任务隔离</strong>与<strong>按重要性调度</strong>。</li>
+</ol>
+<h2 id="六天算星座把概念变成可测的系统">六、天算星座：把概念变成可测的系统</h2>
+<p>论文最后一部分是全文最有说服力的地方——不是仿真，而是在轨数据。</p>
+<p><strong>星座规划</strong>：分三期推进（一期 6 颗、二期 24 颗、三期 300 颗），多数部署在太阳同步轨道，地面站分布在湖南、新疆、黑龙江。截至 2023 年 7 月已发射 5 颗：宝酝号、创星雷神号、丽泽一号、元光号、北邮一号。一期的<strong>前三颗验证边缘计算 + 遥感应用，后三颗探索星间链路</strong>。</p>
+<p>一期参数（表 II 摘要）：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>指标</th><th>1–3 号星</th><th>4–6 号星</th></tr></thead><tbody><tr><td>轨道高度</td><td>500 ± 50 km</td><td>> 500 km</td></tr><tr><td>质量</td><td>≤ 30 kg</td><td>> 50 kg</td></tr><tr><td>电池容量</td><td>118–236 Wh</td><td>> 360 Wh</td></tr><tr><td>频段</td><td>X</td><td>X / Ku / Ka</td></tr><tr><td>上行速率</td><td>0.1–1 Mbps</td><td>≥ 200 Mbps</td></tr><tr><td>下行速率</td><td>100–600 Mbps</td><td>≥ 1 Gbps</td></tr><tr><td>星间链路</td><td>无</td><td>有</td></tr><tr><td>处理器</td><td>CPU / NPU</td><td>CPU / NPU / GPU</td></tr></tbody></table>
+<p>注意这张表本身就说明了问题：<strong>上行 0.1–1 Mbps 对下行 100–600 Mbps</strong>，差两到三个数量级。这个不对称，正是”必须在星上先算一算”的最硬理由。</p>
+<p>四个在轨实验：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>实验</th><th>时间</th><th>结果</th></tr></thead><tbody><tr><td>星载 B5G 核心网（TY20 试验星）</td><td>2021-08-09</td><td>星上跑通 AMF/SMF/UPF，完成用户注册与会话建立，遥测显示信令正确生成并触发地面本地计算卸载；随后完成视频通话测试，并升级部署到宝酝号、创星雷神号</td></tr><tr><td>云原生卫星（宝酝号）</td><td>2021-12-07 发射</td><td>星地协同、容器化部署；云遮挡超过 50% 时直接丢弃低质量影像以省带宽；星上粗筛 + 地面高精度模型细算，处理时间从约 1 天缩短到 1 小时</td></tr><tr><td>基于 KubeEdge + Sedna 的星地协同推理</td><td>—</td><td>星上部署低精度模型判”是否感兴趣”，高置信度就地处理，低置信度下传到地面高精度模型再回传结果；<strong>时延从数天降到数分钟且不损精度</strong>；另用星上图像分割缓解云遮挡导致的冗余图</td></tr><tr><td>基于 QUIC 的星地实时传输</td><td>2022-08-25</td><td>完成全球首次基于 QUIC 的星地链路实时传输试验：长沙地面站发起遥控指令、铜川站接收并分析流量，配套改造 QUIC 服务端逻辑、并按 CCSDS 的 AOS 协议做数据帧解析增强</td></tr></tbody></table>
+<p><strong>关于北邮一号（2023-01-15 发射，天算首颗主星）的量化结果</strong>：在 15 天窗口内验证了遥感影像 AI 推理、星地实时视频流等关键功能，遥测显示<strong>星地端到端测运控服务平均响应时间 8 秒</strong>；对比非云原生平台，容器化打包 + 统一部署显著提升了<strong>星上服务利用率</strong>——因为非云原生平台只能提供定制服务，程序长期占用星上有限资源，导致利用率下降。</p>
+<p>论文结尾的愿景说得很克制也很清楚：下一步是建设更大的<strong>开源</strong>星座，让更多人能接入并研究卫星技术，最终目标是”democratizing access to satellite computing”——让卫星计算像今天的水电一样被取用。</p>
+<h2 id="七我的解读与几点保留意见">七、我的解读与几点保留意见</h2>
+<p><strong>这篇论文真正的贡献是把边界画清楚了。</strong> 它明确区分了三件事：地面云的假设（节点固定、带宽充裕、供电稳定）在太空全部不成立；现有文献大多在仿真里回避了这一点；而”上真星验证”不是锦上添花，而是这个领域的方法论前提。天算星座的意义正在于此——它提供了一个别人可以复现的参照系。</p>
+<p><strong>但也要看清它的局限：</strong></p>
+<ol>
+<li><strong>综述截至 2023 年初，且偏重”仿真类”工作。</strong> 近两年星上容器化更新、星载操作系统、星座级编排的进展很快，这篇的路线图需要随时间更新。</li>
+<li><strong>缺少横向量化对比。</strong> 四个实验给的是”做成了 + 若干单点数字”，没有与地面基线或其他方案的系统性对比表，读者难以判断收益的量级。</li>
+<li><strong>联邦学习那段有一个未展开的前提。</strong> 论文自己也承认当前星间通信不可用，那么在无 ISL 的星座上做 FL，模型同步只能依赖星地窗口，一轮聚合可能要跨越数条轨道周期。这个可行性问题在文中被点到却没有量化。</li>
+<li><strong>卫星 OS 的容错只有定性讨论。</strong> “软件层提供容错”是正确方向，但辐照下单粒子翻转的检错/恢复代价、以及与容器编排的配合方式，都还是空白。</li>
+<li><strong>上行带宽的不对称被反复提及，但没能给出系统级的解。</strong> 0.1 Mbps 的上行实际上限定了”地面如何干预在轨服务”的能力边界，这会反过来约束所有星上自治方案的设计。</li>
+</ol>
+<p><strong>对做研究的人来说，我认为最有性价比的三个切口：</strong></p>
+<ul>
+<li><strong>星上应用的生命周期管理</strong>：容器化解决了打包，但版本回滚、断点续传、星地窗口下的差分更新，仍是有明确指标（传输量、恢复成功率）可做的题目；</li>
+<li><strong>带宽不对称下的任务划分</strong>：给定上行 0.1 Mbps 与下行 100 Mbps，什么样的”星上粗筛 + 地面精算”划分是最优的？这是可以建模、也可以在天算这类平台上验证的问题；</li>
+<li><strong>面向空间环境的鲁棒性测试</strong>：论文提到的”自动生成环境变化用例去重训模型”，本质是把地面上的模糊测试/变异测试搬到在轨 AI 上，工具链几乎是空白。</li>
+</ul>
+<p>一句话收束：<strong>这篇论文适合当作这个方向的”地图”来读——它告诉你地形、障碍和几条可能的路线，但每一段路都还没人走完。</strong></p>
+<h2 id="参考文献">参考文献</h2>
+<ol>
+<li>S. Wang and Q. Li, “Satellite Computing: Vision and Challenges,” <em>IEEE Internet of Things Journal</em>, vol. 10, no. 24, pp. 22514–22529, 2023. DOI: <a href="https://doi.org/10.1109/JIOT.2023.3303346">10.1109/JIOT.2023.3303346</a></li>
+<li>S. Wang, Q. Li, M. Xu, X. Ma, A. Zhou, and Q. Sun, “Tiansuan Constellation: An Open Research Platform,” in <em>Proc. IEEE International Conference on Edge Computing (EDGE)</em>, 2021, pp. 94–101.</li>
+<li>D. Bhattacherjee, S. Kassing, M. Licciardello, and A. Singla, “In-orbit Computing: An Outlandish Thought Experiment?” in <em>Proc. ACM HotNets</em>, 2020, pp. 197–204.</li>
+<li>B. Denby and B. Lucia, “Orbital Edge Computing: Nanosatellite Constellations as a New Class of Computer System,” in <em>Proc. ASPLOS</em>, 2020, pp. 939–954.</li>
+<li>D. Bhattacherjee and A. Singla, “Network Topology Design at 27,000 km/hour,” in <em>Proc. ACM CoNEXT</em>, 2019, pp. 341–354.</li>
+<li>S. Kassing, D. Bhattacherjee, A. B. Águas, J. E. Saethre, and A. Singla, “Exploring the ‘Internet from Space’ with Hypatia,” in <em>Proc. ACM IMC</em>, 2020, pp. 214–229.</li>
+</ol> </div> <!-- Footer --> <footer class="mt-16 pt-8 border-t border-[var(--color-border)]"> <div class="flex items-center justify-between"> <a href="/blog" class="inline-flex items-center gap-2 text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="m15 18-6-6 6-6"></path> </svg>
+返回博客
+</a> <a href="https://github.com/BaiXious" class="text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
+在 GitHub 上编辑
+</a> </div> </footer> </article>  <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-[var(--color-border)]"> <h2 class="font-serif text-2xl font-semibold text-[var(--color-fg)] mb-8">相关文章</h2> <div class="grid gap-6"> <article class="card p-6"> <div class="flex flex-wrap items-center gap-3 mb-2 text-sm text-[var(--color-muted)]"> <time datetime="2026-08-02T00:00:00.000Z">2026年8月2日</time> </div> <h3 class="font-serif text-lg font-semibold mb-2"> <a href="/blog/leo-edge-computing-notes" class="text-[var(--color-fg)] hover:text-[var(--color-accent)] transition-colors"> 低轨卫星计算与通信相关概念笔记 </a> </h3> <p class="text-[var(--color-muted)] text-sm line-clamp-2">解读齐普夫分布建模服务流行度、双时间尺度优化框架（iAOS 服务部署 + DS-MDDQN 任务卸载）的等相关概念及其在低轨卫星计算与通信中的作用。</p> </article> </div> </section> </main> <!-- Footer --> <footer class="py-12 mt-20"> <div class="max-w-6xl mx-auto px-6"> <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[var(--color-muted)]"> <p>© 2026 BaiXious</p> <div class="flex items-center gap-6"> <a href="/rss.xml" class="hover:text-[var(--color-fg)] transition-colors">RSS</a> <a href="https://github.com/BaiXious" class="hover:text-[var(--color-fg)] transition-colors">GitHub</a> </div> </div> </div> </footer>  </body> </html>
