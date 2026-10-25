@@ -9,3 +9,6 @@ dist/
 # editor / agent scratch directories
 .qoder/
 .zcode/
+
+# 本地记忆/索引目录
+.memsearch/
