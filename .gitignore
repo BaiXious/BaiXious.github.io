@@ -2,3 +2,10 @@ node_modules/
 dist/
 .astro/
 .DS_Store
+
+# local package manager caches
+.pnpm-store/
+
+# editor / agent scratch directories
+.qoder/
+.zcode/
